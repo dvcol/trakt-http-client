@@ -74,5 +74,4 @@ jobs:
     uses: ./.github/workflows/publish.yml
     secrets: inherit
     with:
-      commit-hash: ${{ needs.release.outputs.commit-hash }}
       tag-name: ${{ inputs.tag-name || needs.release.outputs.tag-name }}
