@@ -34,6 +34,11 @@
       "import": "./dist/clients/index.js",
       "types": "./dist/clients/index.d.ts"
     },
+    "./config": {
+      "require": "./dist/config/index.cjs",
+      "import": "./dist/config/index.js",
+      "types": "./dist/config/index.d.ts"
+    },
     "./models": {
       "require": "./dist/models/index.cjs",
       "import": "./dist/models/index.js",
