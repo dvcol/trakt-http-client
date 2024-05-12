@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/dvcol/trakt-http-client/compare/v1.1.0...v1.2.0) (2024-05-12)
+
+
+### Features
+
+* **config:** adds endpoints in configs ([15acc14](https://github.com/dvcol/trakt-http-client/commit/15acc14534e989cdc41f39431e8ad13b0cdd21ff))
+
 ## 1.1.0 (2024-05-12)
 
 
