@@ -358,10 +358,11 @@ export class TraktClient extends BaseTraktClient {
    * @throws Error Throws an error if no access token is found.
    */
   async revokeAuthentication(): Promise<void> {
-    if (this.auth.access_token) {
-      await this._revoke();
-      this.updateAuth({});
-    }
+    if (!this.auth.access_token) throw Error('No access token found.');
+
+    if (this.auth.expires !== undefined && this.auth.expires > Date.now()) await this._revoke();
+
+    this.updateAuth({});
   }
 
   /**

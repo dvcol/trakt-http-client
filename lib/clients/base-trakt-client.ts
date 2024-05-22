@@ -145,7 +145,11 @@ export class BaseTraktClient extends BaseClient<TraktApiQuery, TraktApiResponse,
     if (template.opts?.auth === true && !this.auth.access_token) {
       throw Error('OAuth required: access_token is missing');
     } else if (template.opts?.auth && this.auth.access_token) {
-      headers[TraktApiHeaders.Authorization] = `Bearer ${this.auth.access_token}`;
+      if (this.auth.expires !== undefined && this.auth.expires > Date.now()) {
+        headers[TraktApiHeaders.Authorization] = `Bearer ${this.auth.access_token}`;
+      } else {
+        throw Error('OAuth required: access_token has expired');
+      }
     }
 
     return headers;
@@ -166,14 +170,14 @@ export class BaseTraktClient extends BaseClient<TraktApiQuery, TraktApiResponse,
    * @throws {Error} Throws an error if mandatory parameters are missing or if a filter is not supported.
    */
   protected _parseUrl<T extends TraktApiParams = TraktApiParams>(template: TraktApiTemplate<T>, params: T): URL {
-    injectCorsProxyPrefix(template, this.settings);
-    const url = parseUrl<T>(template, params, this.settings.endpoint);
+    const _template = injectCorsProxyPrefix(template, this.settings);
+    const url = parseUrl<T>(_template, params, this.settings.endpoint);
     const queryParams = url.searchParams;
 
     // Adds Filters query parameters
-    if (template.opts?.filters?.length && params.filters) {
+    if (_template.opts?.filters?.length && params.filters) {
       Object.entries(params.filters as { [s: string]: Primitive | Primitive[] }).forEach(([key, value]) => {
-        if (!isFilter(key) || !template.opts?.filters?.includes(key)) {
+        if (!isFilter(key) || !_template.opts?.filters?.includes(key)) {
           throw Error(`Filter is not supported: '${key}'`);
         }
 
@@ -186,17 +190,17 @@ export class BaseTraktClient extends BaseClient<TraktApiQuery, TraktApiResponse,
     }
 
     // Pagination
-    if (template.opts?.pagination && params.pagination) {
+    if (_template.opts?.pagination && params.pagination) {
       if (params.pagination.page) queryParams.set('page', `${params.pagination.page}`);
       if (params.pagination.limit) queryParams.set('limit', `${params.pagination.limit}`);
     }
 
     // Extended
-    if (template.opts?.extended?.length && params.extended) {
-      const templateExtended = template.opts.extended;
+    if (_template.opts?.extended?.length && params.extended) {
+      const templateExtended = _template.opts.extended;
       const paramsExtended = Array.isArray(params.extended) ? params.extended : [params.extended];
       if (paramsExtended.some(e => !templateExtended.includes(e))) {
-        throw Error(`Invalid value '${params.extended}', extended should be '${template.opts.extended.join(', ')}'`);
+        throw Error(`Invalid value '${params.extended}', extended should be '${_template.opts.extended.join(', ')}'`);
       }
       queryParams.set('extended', `${params.extended}`);
     }
