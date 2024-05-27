@@ -9,7 +9,7 @@ import { BaseTraktClient, parseResponse } from './base-trakt-client';
 
 import type { Updater } from '@dvcol/base-http-client/utils/observable';
 import type { TraktClientAuthentication } from '~/models/trakt-authentication.model';
-import type { TraktApiInit, TraktApiParams, TraktApiTemplate } from '~/models/trakt-client.model';
+import type { TraktApiInit, TraktApiParams, TraktApiResponseLimit, TraktApiTemplate } from '~/models/trakt-client.model';
 
 import { TraktApiHeaders } from '~/models/trakt-client.model';
 
@@ -288,6 +288,44 @@ describe('base-trakt-client.ts', () => {
         url: 'url',
         user: 'vip',
         limit: '2000',
+      });
+    });
+
+    it('should parse a response with limit headers', () => {
+      expect.assertions(1);
+
+      const rate: TraktApiResponseLimit = {
+        name: 'UNAUTHED_API_GET_LIMIT',
+        period: 300,
+        limit: 1000,
+        remaining: 0,
+        until: '2020-10-10T00:24:00Z',
+      };
+      const retry = 30;
+
+      const response = new Response();
+      response.headers.set(TraktApiHeaders.XRatelimit, JSON.stringify(rate));
+      response.headers.set(TraktApiHeaders.RetryAfter, `${retry}`);
+      const parsed = parseResponse(response);
+
+      expect(parsed.limit).toMatchObject({
+        rate,
+        retry,
+      });
+    });
+
+    it('should parse a response with unparsable limit headers', () => {
+      expect.assertions(1);
+
+      const retry = 50;
+
+      const response = new Response();
+      response.headers.set(TraktApiHeaders.XRatelimit, 'unparsableString');
+      response.headers.set(TraktApiHeaders.RetryAfter, `${50}`);
+      const parsed = parseResponse(response);
+
+      expect(parsed.limit).toMatchObject({
+        retry,
       });
     });
 

@@ -116,6 +116,14 @@ export type TraktApiRequest = BaseRequest;
 
 export type TraktApiQuery<T = unknown> = BaseQuery<TraktApiRequest, T>;
 
+export type TraktApiResponseLimit = {
+  name: 'UNAUTHED_API_GET_LIMIT';
+  period: 300;
+  limit: 1000;
+  remaining: 0;
+  until: '2020-10-10T00:24:00Z';
+};
+
 export type TraktApiResponse<T = unknown> = ResponseOrTypedResponse<T> & {
   pagination?: TraktClientPagination;
   interval?: {
@@ -134,6 +142,10 @@ export type TraktApiResponse<T = unknown> = ResponseOrTypedResponse<T> & {
     url?: string | null;
     user?: string | null;
     limit?: string | null;
+  };
+  limit?: {
+    rate?: TraktApiResponseLimit;
+    retry?: number;
   };
 };
 

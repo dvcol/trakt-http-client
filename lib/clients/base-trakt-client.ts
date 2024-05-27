@@ -2,19 +2,21 @@ import { type BaseBody, BaseClient, BaseHeaderContentType, injectCorsProxyPrefix
 
 import type { TraktApi } from '~/api/trakt-api.endpoints';
 import type { TraktClientAuthentication } from '~/models/trakt-authentication.model';
+
 import type {
   ITraktApi,
   TraktApiParams,
   TraktApiQuery,
   TraktApiResponse,
+  TraktApiResponseLimit,
   TraktApiTemplate,
   TraktClientOptions,
   TraktClientSettings,
 } from '~/models/trakt-client.model';
-
 import type { Primitive } from '~/utils/typescript.utils';
 
 import { isFilter, TraktApiFilterValidator } from '~/api/trakt-api.filters';
+
 import { TraktApiHeaders } from '~/models/trakt-client.model';
 
 /**
@@ -95,6 +97,20 @@ export const parseResponse = <T>(response: Response): TraktApiResponse<T> => {
       user: response.headers.get(TraktApiHeaders.XVipUser),
       limit: response.headers.get(TraktApiHeaders.XAccountLimit),
     };
+  }
+
+  if (response.headers.has(TraktApiHeaders.XRatelimit) || response.headers.has(TraktApiHeaders.RetryAfter)) {
+    _response.limit = {};
+    if (response.headers.has(TraktApiHeaders.XRatelimit)) {
+      try {
+        _response.limit.rate = JSON.parse(response.headers.get(TraktApiHeaders.XRatelimit) as string) as TraktApiResponseLimit;
+      } catch (error) {
+        console.warn('Failed to parse rate limit', response.headers.get(TraktApiHeaders.XRatelimit), error);
+      }
+    }
+    if (response.headers.has(TraktApiHeaders.RetryAfter)) {
+      _response.limit.retry = Number(response.headers.get(TraktApiHeaders.RetryAfter));
+    }
   }
 
   return _response;
