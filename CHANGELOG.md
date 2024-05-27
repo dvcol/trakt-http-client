@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/dvcol/trakt-http-client/compare/v1.2.0...v1.3.0) (2024-05-27)
+
+
+### Features
+
+* **response:** parse rate limit payload when possible ([3fe0a20](https://github.com/dvcol/trakt-http-client/commit/3fe0a20fcd5b8487c94ad2d07759aeb8a20ad6cc))
+
+
+### Bug Fixes
+
+* **auth:** adds expiration check and fix parsed response ([11985e2](https://github.com/dvcol/trakt-http-client/commit/11985e2060291fe0c57c785079bf1af3cc9eaef5))
+* **tests:** fix refresh and revoke UT ([a0049ed](https://github.com/dvcol/trakt-http-client/commit/a0049ed1e2111b9bd60982871690fbc4b6c7cd4e))
+
 ## [1.2.0](https://github.com/dvcol/trakt-http-client/compare/v1.1.0...v1.2.0) (2024-05-12)
 
 
