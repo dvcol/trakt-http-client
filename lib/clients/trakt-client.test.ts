@@ -10,6 +10,7 @@ import { traktApi } from '../api/trakt-api.endpoints';
 
 import { traktClientSettingsMock } from '../mocks/tratk-settings.mock';
 
+import { parseAuthResponse } from './base-trakt-client';
 import { TraktClient } from './trakt-client';
 
 import type { CacheStore } from '@dvcol/base-http-client/utils/cache';
@@ -174,6 +175,8 @@ describe('trakt-client.ts', () => {
       scope: 'scope',
     };
 
+    const clientAuthentication = parseAuthResponse(authentication);
+
     it('should poll with device code', async () => {
       expect.assertions(2);
 
@@ -301,11 +304,31 @@ describe('trakt-client.ts', () => {
     it('should refreshing with existing token', async () => {
       expect.assertions(1);
 
-      await traktClient.importAuthentication(authentication);
+      await traktClient.importAuthentication(clientAuthentication);
 
       fetch.mockResolvedValueOnce(new Response(JSON.stringify(authentication)));
 
       await traktClient.refreshToken();
+
+      expect(fetch).toHaveBeenCalledWith(new URL('/oauth/token', traktClientSettingsMock.endpoint).toString(), {
+        ...payload,
+        method: HttpMethod.POST,
+        body: JSON.stringify({
+          client_id: traktClientSettingsMock.client_id,
+          client_secret: traktClientSettingsMock.client_secret,
+          redirect_uri: traktClientSettingsMock.redirect_uri,
+          grant_type: 'refresh_token',
+          refresh_token: authentication.refresh_token,
+        }),
+      });
+    });
+
+    it('should refresh token when importing an expired auth', async () => {
+      expect.assertions(1);
+
+      fetch.mockResolvedValueOnce(new Response(JSON.stringify(authentication)));
+
+      await traktClient.importAuthentication({ ...clientAuthentication, expires: new Date().getTime() - 10000 });
 
       expect(fetch).toHaveBeenCalledWith(new URL('/oauth/token', traktClientSettingsMock.endpoint).toString(), {
         ...payload,
@@ -335,10 +358,22 @@ describe('trakt-client.ts', () => {
       }
     });
 
+    it('should not revoke token if already expired', async () => {
+      expect.assertions(1);
+
+      await traktClient.importAuthentication({ ...clientAuthentication, expires: undefined });
+
+      fetch.mockResolvedValueOnce(new Response(JSON.stringify(authentication)));
+
+      await traktClient.revokeAuthentication();
+
+      expect(fetch).not.toHaveBeenCalled();
+    });
+
     it('should revoke token', async () => {
       expect.assertions(1);
 
-      await traktClient.importAuthentication(authentication);
+      await traktClient.importAuthentication(clientAuthentication);
 
       fetch.mockResolvedValueOnce(new Response(JSON.stringify(authentication)));
 
@@ -359,7 +394,7 @@ describe('trakt-client.ts', () => {
       expect.assertions(1);
       fetch.mockResolvedValueOnce(new Response(JSON.stringify(authentication)));
 
-      await traktClient.importAuthentication({ ...authentication, expires: new Date().getTime() - 10000 });
+      await traktClient.importAuthentication({ ...clientAuthentication, expires: new Date().getTime() - 10000 });
 
       expect(fetch).toHaveBeenCalledWith(new URL('/oauth/token', traktClientSettingsMock.endpoint).toString(), {
         ...payload,

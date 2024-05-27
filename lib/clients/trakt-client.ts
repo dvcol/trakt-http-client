@@ -1,4 +1,4 @@
-import { BaseTraktClient, isResponseOk } from './base-trakt-client';
+import { BaseTraktClient, isResponseOk, parseAuthResponse } from './base-trakt-client';
 
 import type {
   TraktAuthentication,
@@ -206,12 +206,7 @@ export class TraktClient extends BaseTraktClient {
     try {
       const body = await this._device(poll.device_code);
 
-      this.updateAuth(auth => ({
-        ...auth,
-        refresh_token: body.refresh_token,
-        access_token: body.access_token,
-        expires: (body.created_at + body.expires_in) * 1000,
-      }));
+      this.updateAuth(auth => parseAuthResponse(body, auth));
 
       clearInterval(this.polling);
       return body;

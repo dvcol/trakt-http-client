@@ -1,7 +1,8 @@
 import { type BaseBody, BaseClient, BaseHeaderContentType, injectCorsProxyPrefix, parseBody, parseUrl } from '@dvcol/base-http-client';
 
 import type { TraktApi } from '~/api/trakt-api.endpoints';
-import type { TraktClientAuthentication } from '~/models/trakt-authentication.model';
+
+import type { TraktAuthentication, TraktClientAuthentication } from '~/models/trakt-authentication.model';
 
 import type {
   ITraktApi,
@@ -35,6 +36,18 @@ export const isResponseOk = (response: Response) => {
   if (!response.ok || response.status >= 400) throw response;
   return response;
 };
+
+/**
+ * Parses a Trakt API authentication response to mutate the {@link TraktClientAuthentication} object.
+ * @param response - The response from the Trakt API.
+ * @param auth - The current authentication object.
+ */
+export const parseAuthResponse = <T extends TraktAuthentication>(response: T, auth: TraktClientAuthentication = {}): TraktClientAuthentication => ({
+  ...auth,
+  refresh_token: response.refresh_token,
+  access_token: response.access_token,
+  expires: (response.created_at + response.expires_in) * 1000,
+});
 
 /**
  * Parses a Trakt API response to extract {@link TraktClientPagination} and other information.
