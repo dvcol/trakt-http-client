@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.1](https://github.com/dvcol/trakt-http-client/compare/v1.3.0...v1.3.1) (2024-06-12)
+
+
+### Bug Fixes
+
+* **ci:** fix release & bumps base-http version ([b2f1543](https://github.com/dvcol/trakt-http-client/commit/b2f1543367ef00d1781f1bdbe15cd33aa3dc3be6))
+
 ## [1.3.0](https://github.com/dvcol/trakt-http-client/compare/v1.2.0...v1.3.0) (2024-05-27)
 
 
