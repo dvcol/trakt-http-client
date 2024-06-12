@@ -443,6 +443,6 @@ describe('base-trakt-client.ts', () => {
     expect.assertions(1);
 
     const testFunction = () => client.publicCall({ ...mockTemplate, opts: { ...mockTemplate.opts, auth: true } }, mockParams);
-    await expect(testFunction).rejects.toThrow('OAuth required: access_token is missing');
+    expect(testFunction).toThrow('OAuth required: access_token is missing');
   });
 });

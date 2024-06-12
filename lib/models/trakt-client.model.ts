@@ -11,6 +11,7 @@ import type {
   BaseTemplateOptions,
   ResponseOrTypedResponse,
 } from '@dvcol/base-http-client';
+import type { CancellablePromise } from '@dvcol/base-http-client/utils/fetch';
 
 import type { TraktApiFilters } from '~/api/trakt-api.filters';
 
@@ -96,12 +97,12 @@ export type TraktApiInit = BaseInit;
 export type TraktApiTemplate<Parameter extends TraktApiParams = TraktApiParams> = BaseTemplate<Parameter, TraktApiTemplateOptions<keyof Parameter>>;
 
 export interface TraktClientEndpoint<Parameter extends TraktApiParams = Record<string, never>, Response = unknown> {
-  (param?: Parameter, init?: TraktApiInit): Promise<TraktApiResponse<Response>>;
+  (param?: Parameter, init?: TraktApiInit): CancellablePromise<TraktApiResponse<Response>>;
 }
 
 export type TraktClientCachedEndpoint<Parameter extends TraktApiParams = Record<string, never>, Response = unknown> = {
   evict: (param?: Parameter, init?: BaseInit) => Promise<string | undefined>;
-} & ((param?: Parameter, init?: BaseInit, cacheOptions?: BaseCacheOption) => Promise<TraktApiResponse<Response>>);
+} & ((param?: Parameter, init?: BaseInit, cacheOptions?: BaseCacheOption) => CancellablePromise<TraktApiResponse<Response>>);
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging  -- To allow type extension
 export class TraktClientEndpoint<
