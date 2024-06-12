@@ -1,5 +1,5 @@
 name: 📦 Release
-run-name: 📦 Release - ${{ inputs.tag-name || github.event.sha || github.ref }}
+run-name: 📦 Release - ${{ inputs.tag-name || github.sha || github.ref }}
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -30,6 +30,11 @@ jobs:
       commit-hash: ${{ steps.push-tag.outputs.commit_hash }}
 
     steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: |
+          echo "$GITHUB_CONTEXT"
       - name: ⛙ Checkout branch ${{ github.ref }}
         uses: actions/checkout@v4
         with:
