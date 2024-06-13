@@ -12,8 +12,8 @@ importers:
         specifier: ^1.5.0
         version: 1.5.0
       '@dvcol/common-utils':
-        specifier: ^1.2.1
-        version: 1.2.1
+        specifier: ^1.2.2
+        version: 1.2.2
     devDependencies:
       '@commitlint/cli':
         specifier: ^19.3.0
@@ -195,8 +195,8 @@ packages:
     resolution: {integrity: sha512-4g5JNYtMvMtnvLTyX5kcLFCrSrSVFAoAjTjt4UJ0uzGFM92I8Z96MeSWmXM8ICVIOjMCsWsymdko9tAWE2ad8Q==}
     engines: {node: '>=20', pnpm: '>= 8'}
 
-  '@dvcol/common-utils@1.2.1':
-    resolution: {integrity: sha512-RqXk9w1cGt4pAsUqd+9to9fyr8Ws9apieg9iuy5BE3DSTslNPY16vZ/TDiVM8YwDFK9HfMrMp1bmUEYVSmRl6g==}
+  '@dvcol/common-utils@1.2.2':
+    resolution: {integrity: sha512-7fDxYpYlEfLuwMoDv1/RW33k4aa7CYmJ/TgfW9qgNrgPH9qYoQ8zj9zWyhiQ9Ra6LC3kjRpUXSVgbgzN+isIdA==}
     engines: {node: '>=20', pnpm: '>= 8'}
 
   '@dvcol/eslint-plugin-presets@1.3.10':
@@ -3230,9 +3230,9 @@ snapshots:
 
   '@dvcol/base-http-client@1.5.0':
     dependencies:
-      '@dvcol/common-utils': 1.2.1
+      '@dvcol/common-utils': 1.2.2
 
-  '@dvcol/common-utils@1.2.1': {}
+  '@dvcol/common-utils@1.2.2': {}
 
   '@dvcol/eslint-plugin-presets@1.3.10(p3xz7634vc6y4ezreptpdazoiu)':
     dependencies:
