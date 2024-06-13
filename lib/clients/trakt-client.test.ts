@@ -1,8 +1,9 @@
 import { BaseHeaderContentType } from '@dvcol/base-http-client';
-import { CancellableFetch } from '@dvcol/base-http-client/utils/fetch';
+import { hasOwnProperty } from '@dvcol/base-http-client/utils';
 
-import { HttpMethod } from '@dvcol/base-http-client/utils/http';
-import { hasOwnProperty } from '@dvcol/base-http-client/utils/test';
+import { HttpMethod } from '@dvcol/common-utils/http';
+import { CancellableFetch } from '@dvcol/common-utils/http/fetch';
+
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { minimalTraktApi } from '../api/trakt-api-minimal.endpoints';
@@ -13,7 +14,8 @@ import { traktClientSettingsMock } from '../mocks/tratk-settings.mock';
 import { parseAuthResponse } from './base-trakt-client';
 import { TraktClient } from './trakt-client';
 
-import type { CacheStore } from '@dvcol/base-http-client/utils/cache';
+import type { CacheStore } from '@dvcol/common-utils';
+
 import type { TraktAuthentication, TraktDeviceAuthentication } from '~/models/trakt-authentication.model';
 import type { TraktApiResponse } from '~/models/trakt-client.model';
 

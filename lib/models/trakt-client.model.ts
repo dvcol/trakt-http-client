@@ -11,7 +11,7 @@ import type {
   BaseTemplateOptions,
   ResponseOrTypedResponse,
 } from '@dvcol/base-http-client';
-import type { CancellablePromise } from '@dvcol/base-http-client/utils/fetch';
+import type { CancellablePromise } from '@dvcol/common-utils/http/fetch';
 
 import type { TraktApiFilters } from '~/api/trakt-api.filters';
 

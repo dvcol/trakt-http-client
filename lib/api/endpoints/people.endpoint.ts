@@ -1,4 +1,4 @@
-import { HttpMethod } from '@dvcol/base-http-client/utils/http';
+import { HttpMethod } from '@dvcol/common-utils/http';
 
 import type { TraktList } from '~/models/trakt-list.model';
 import type { TraktMovieCast } from '~/models/trakt-movie.model';

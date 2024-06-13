@@ -1,4 +1,4 @@
-import { HttpMethod } from '@dvcol/base-http-client/utils/http';
+import { HttpMethod } from '@dvcol/common-utils/http';
 
 import type { TraktScrobble, TraktScrobbleRequest } from '~/models/trakt-scrobble.model';
 

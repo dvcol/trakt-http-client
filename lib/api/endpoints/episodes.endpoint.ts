@@ -1,4 +1,4 @@
-import { HttpMethod } from '@dvcol/base-http-client/utils/http';
+import { HttpMethod } from '@dvcol/common-utils/http';
 
 import type { TraktComment } from '~/models/trakt-comment.model';
 import type { TraktGenericRating, TraktTranslation } from '~/models/trakt-entity.model';

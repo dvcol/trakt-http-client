@@ -1,4 +1,4 @@
-import { HttpMethod } from '@dvcol/base-http-client/utils/http';
+import { HttpMethod } from '@dvcol/common-utils/http';
 
 import type { TraktCalendarMovie, TraktCalendarQuery, TraktCalendarShow } from '~/models/trakt-calendar.model';
 import type { TraktApiTemplate, TraktApiTemplateOptions } from '~/models/trakt-client.model';

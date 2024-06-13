@@ -1,13 +1,13 @@
 import { type BaseBody, BaseHeaderContentType } from '@dvcol/base-http-client';
-import { CancellableFetch } from '@dvcol/base-http-client/utils/fetch';
-import { HttpMethod } from '@dvcol/base-http-client/utils/http';
+import { HttpMethod } from '@dvcol/common-utils/http';
+import { CancellableFetch } from '@dvcol/common-utils/http/fetch';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { traktClientSettingsMock } from '../mocks/tratk-settings.mock';
 
 import { BaseTraktClient, parseResponse } from './base-trakt-client';
 
-import type { Updater } from '@dvcol/base-http-client/utils/observable';
+import type { Updater } from '@dvcol/common-utils/common';
 import type { TraktClientAuthentication } from '~/models/trakt-authentication.model';
 import type { TraktApiInit, TraktApiParams, TraktApiResponseLimit, TraktApiTemplate } from '~/models/trakt-client.model';
 
