@@ -186,7 +186,7 @@
   },
   "peerDependencies": {},
   "dependencies": {
-    "@dvcol/base-http-client": "^1.5.0",
+    "@dvcol/base-http-client": "^1.10.0",
     "@dvcol/common-utils": "^1.2.2"
   },
   "devDependencies": {
@@ -209,10 +209,16 @@
     "extract-changelog-release": "^1.0.2",
     "husky": "^9.0.11",
     "jsonc-eslint-parser": "^2.4.0",
+    "lint-staged": "^15.2.7",
     "prettier": "^3.2.5",
     "standard-version": "^9.5.0",
     "tsup": "^8.0.2",
     "typescript": "^5.4.5",
     "vitest": "^1.6.0"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,vue,svelte,json,md}": [
+      "eslint --fix"
+    ]
   }
 }

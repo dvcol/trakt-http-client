@@ -1,4 +1,4 @@
-import { type BaseBody, BaseClient, BaseHeaderContentType, injectCorsProxyPrefix, parseBody, parseUrl } from '@dvcol/base-http-client';
+import { BaseClient, BaseHeaderContentType, injectCorsProxyPrefix, parseUrl } from '@dvcol/base-http-client';
 
 import type { TraktApi } from '~/api/trakt-api.endpoints';
 
@@ -14,10 +14,10 @@ import type {
   TraktClientOptions,
   TraktClientSettings,
 } from '~/models/trakt-client.model';
+
 import type { Primitive } from '~/utils/typescript.utils';
 
 import { isFilter, TraktApiFilterValidator } from '~/api/trakt-api.filters';
-
 import { TraktApiHeaders } from '~/models/trakt-client.model';
 
 /**
@@ -235,23 +235,6 @@ export class BaseTraktClient extends BaseClient<TraktApiQuery, TraktApiResponse,
     }
 
     return url;
-  }
-
-  /**
-   * Parses body from a template and stringifies a {@link BodyInit}
-   *
-   * @protected
-   *
-   * @template T - The type of the parameters.
-   *
-   * @param template - The expected body structure.
-   * @param {T} params - The actual parameters.
-   *
-   * @returns {BodyInit} The parsed request body.
-   */
-  // eslint-disable-next-line class-methods-use-this -- implemented from abstract class
-  protected _parseBody<T extends TraktApiParams = TraktApiParams>(template: BaseBody<string | keyof T>, params: T): BodyInit {
-    return parseBody(template, params);
   }
 
   /**
