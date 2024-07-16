@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/dvcol/trakt-http-client/compare/v1.3.6...v1.4.0) (2024-07-16)
+
+
+### Features
+
+* **auth:** improve device polling & error managment ([f801e5a](https://github.com/dvcol/trakt-http-client/commit/f801e5a175546c356bddd42e5ed75eabdbdab8ff))
+
 ### [1.3.6](https://github.com/dvcol/trakt-http-client/compare/v1.3.5...v1.3.6) (2024-06-23)
 
 ### [1.3.5](https://github.com/dvcol/trakt-http-client/compare/v1.3.4...v1.3.5) (2024-06-13)
