@@ -1,6 +1,7 @@
 import { BaseTraktClient, isResponseOk, parseAuthResponse } from './base-trakt-client';
 
 import type {
+  CancellablePolling,
   TraktAuthentication,
   TraktAuthenticationApprove,
   TraktAuthenticationBaseRequest,
@@ -15,6 +16,7 @@ import type { ITraktApi, TraktApiInit, TraktApiResponse, TraktClientOptions } fr
 import { minimalTraktApi } from '~/api/trakt-api-minimal.endpoints';
 import { TraktApiHeaders } from '~/models/trakt-client.model';
 
+import { TraktInvalidParameterError, TraktPollingExpiredError, TraktRateLimitError, TraktUnauthorizedError } from '~/models/trakt-error.model';
 import { randomHex } from '~/utils/crypto.utils';
 
 /**
@@ -32,10 +34,10 @@ const handleError = <T>(error: T | Response) => {
   if (!isResponse(error)) return error;
 
   if (error.status === 401 && error.headers.has('www-authenticate')) {
-    return Error(error.headers.get('www-authenticate')!);
+    return new TraktUnauthorizedError(error.headers.get('www-authenticate')!);
   }
   if (error.status === 429 && error.headers.has(TraktApiHeaders.XRatelimit)) {
-    return new Error(error.headers.get(TraktApiHeaders.XRatelimit)!);
+    return new TraktRateLimitError(error.headers.get(TraktApiHeaders.XRatelimit)!);
   }
 
   return error;
@@ -134,7 +136,7 @@ export class TraktClient extends BaseTraktClient {
    * @see isResponseOk
    */
   private async _revoke(request: Partial<TraktAuthenticationRevokeRequest> = {}) {
-    if (!request && !this.auth.access_token) throw new Error('No access token found.');
+    if (!request && !this.auth.access_token) throw new TraktInvalidParameterError('No access token found.');
 
     const _request: TraktAuthenticationRevokeRequest = {
       token: this.auth.access_token!,
@@ -200,7 +202,7 @@ export class TraktClient extends BaseTraktClient {
   private async _devicePolling(poll: TraktDeviceAuthentication, timeout: number) {
     if (timeout <= Date.now()) {
       clearInterval(this.polling);
-      throw new Error('Polling expired');
+      throw new TraktPollingExpiredError('Polling expired');
     }
 
     try {
@@ -230,7 +232,7 @@ export class TraktClient extends BaseTraktClient {
    * @returns A promise resolving to the device authentication information.
    */
   getDeviceCode() {
-    return this._device(null);
+    return this._device<null>(null);
   }
 
   /**
@@ -240,7 +242,7 @@ export class TraktClient extends BaseTraktClient {
    *
    * @returns  A promise resolving to the completed authentication information or `undefined`.
    */
-  pollWithDeviceCode(poll: TraktDeviceAuthentication) {
+  pollWithDeviceCode(poll: TraktDeviceAuthentication): CancellablePolling {
     if (this.polling) {
       clearInterval(this.polling);
       console.warn('Polling already in progress, cancelling previous one...');
@@ -248,7 +250,7 @@ export class TraktClient extends BaseTraktClient {
 
     const timeout = Date.now() + poll.expires_in * 1000;
 
-    return new Promise((resolve, reject) => {
+    const promise$ = new Promise<TraktAuthentication>((resolve, reject) => {
       const pollDevice = () =>
         this._devicePolling(poll, timeout)
           .then(body => {
@@ -257,7 +259,10 @@ export class TraktClient extends BaseTraktClient {
           .catch(reject);
 
       this.polling = setInterval(pollDevice, poll.interval * 1000);
-    });
+    }) as CancellablePolling;
+    promise$.cancel = () => clearInterval(this.polling);
+
+    return promise$;
   }
 
   /**
@@ -340,7 +345,7 @@ export class TraktClient extends BaseTraktClient {
    */
   refreshToken(refresh_token = this.auth.refresh_token) {
     if (!refresh_token) {
-      throw new Error('No refresh token found.');
+      throw new TraktInvalidParameterError('No refresh token found.');
     }
     return this._exchange({ refresh_token });
   }

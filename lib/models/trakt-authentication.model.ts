@@ -80,3 +80,5 @@ export type TraktAuthenticationApprove = Pick<TraktAuthenticationAuthorizeReques
   redirect?: RequestRedirect;
   redirect_uri?: string;
 };
+
+export type CancellablePolling = Promise<TraktAuthentication> & { cancel: () => void };

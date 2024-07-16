@@ -6,6 +6,7 @@ export * from './trakt-collection.model';
 export * from './trakt-comment.model';
 export * from './trakt-entity.model';
 export * from './trakt-episode.model';
+export * from './trakt-error.model';
 export * from './trakt-favorite.model';
 export * from './trakt-history.model';
 export * from './trakt-id.model';

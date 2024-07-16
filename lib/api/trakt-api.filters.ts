@@ -1,6 +1,7 @@
 import type { Primitive } from '~/utils/typescript.utils';
 
 import { TraktEpisodeTypeValues } from '~/models/trakt-episode.model';
+import { TraktFilterError } from '~/models/trakt-error.model';
 import { TraktShowStatusValues } from '~/models/trakt-show.model';
 
 import { DecimalRange, DigitRange, LargeRange, PercentageRange, VeryLargeRange } from '~/utils/regex.utils';
@@ -171,23 +172,23 @@ export const isFilter = (filter: string): filter is TraktApiFilters => (TraktApi
 export const TraktApiFilterValidator = {
   common: (filter: TraktApiCommonFilters, value: Primitive | Primitive[], error = false): boolean => {
     if (Array.isArray(value) && [TraktApiCommonFilter.Query, TraktApiCommonFilter.Years, TraktApiCommonFilter.Runtimes].some(f => f === filter)) {
-      if (error) throw new Error(`Filter '${filter}' doesn't support multiple values.`);
+      if (error) throw new TraktFilterError(`Filter '${filter}' doesn't support multiple values.`);
       return false;
     }
 
     if (filter === TraktApiCommonFilter.Runtimes && !DigitRange.test(value.toString())) {
-      if (error) throw new Error(`Filter '${filter}' should be dash separated digits, i.e. \\d+-\\d+`);
+      if (error) throw new TraktFilterError(`Filter '${filter}' should be dash separated digits, i.e. \\d+-\\d+`);
       return false;
     }
 
     const values = Array.isArray(value) ? value : [value];
 
     if (values.some(v => v.toString().length > 4) && filter === TraktApiCommonFilter.Years) {
-      if (error) throw new Error(`Filter '${filter}' needs to be a 4 digit value.`);
+      if (error) throw new TraktFilterError(`Filter '${filter}' needs to be a 4 digit value.`);
       return false;
     }
     if (values.some(v => v.toString().length > 2) && [TraktApiCommonFilter.Languages, TraktApiCommonFilter.Countries].some(f => f === filter)) {
-      if (error) throw new Error(`Filter '${filter}' needs to be a 2 digit value.`);
+      if (error) throw new TraktFilterError(`Filter '${filter}' needs to be a 2 digit value.`);
       return false;
     }
 
@@ -195,7 +196,7 @@ export const TraktApiFilterValidator = {
   },
   rating: (filter: TraktApiMovieFilters, value: Primitive | Primitive[], error = false): boolean => {
     if (Array.isArray(value)) {
-      if (error) throw new Error(`Filter '${filter}' doesn't support multiple values.`);
+      if (error) throw new TraktFilterError(`Filter '${filter}' doesn't support multiple values.`);
       return false;
     }
 
@@ -205,7 +206,7 @@ export const TraktApiFilterValidator = {
       case TraktApiMovieRatingFilter.RtUserMeters:
       case TraktApiMovieRatingFilter.Metascores:
         if (!PercentageRange.test(value.toString())) {
-          if (error) throw new Error(`Filter '${filter}' should be a range between 0 and 100.`);
+          if (error) throw new TraktFilterError(`Filter '${filter}' should be a range between 0 and 100.`);
           return false;
         }
         break;
@@ -213,14 +214,14 @@ export const TraktApiFilterValidator = {
       case TraktApiRatingFilter.Votes:
       case TraktApiRatingFilter.TmdbVotes:
         if (!LargeRange.test(value.toString())) {
-          if (error) throw new Error(`Filter '${filter}' should be a range between 0 and 100 0000.`);
+          if (error) throw new TraktFilterError(`Filter '${filter}' should be a range between 0 and 100 0000.`);
           return false;
         }
         break;
 
       case TraktApiRatingFilter.ImdbVotes:
         if (!VeryLargeRange.test(value.toString())) {
-          if (error) throw new Error(`Filter '${filter}' should be a range between 0 and 300 0000.`);
+          if (error) throw new TraktFilterError(`Filter '${filter}' should be a range between 0 and 300 0000.`);
           return false;
         }
         break;
@@ -228,7 +229,7 @@ export const TraktApiFilterValidator = {
       case TraktApiRatingFilter.TmdbRatings:
       case TraktApiRatingFilter.ImdbRatings:
         if (!DecimalRange.test(value.toString())) {
-          if (error) throw new Error(`Filter '${filter}' should be a range between 0.0 and 10.0.`);
+          if (error) throw new TraktFilterError(`Filter '${filter}' should be a range between 0.0 and 10.0.`);
           return false;
         }
         break;
@@ -242,7 +243,7 @@ export const TraktApiFilterValidator = {
     const values = Array.isArray(value) ? value : [value];
 
     if (filter === TraktApiShowFilter.Status && !values.some(v => TraktShowStatusValues.includes(v.toString()))) {
-      if (error) throw new Error(`Filter '${filter}' is invalid: unknown status '${value}'.`);
+      if (error) throw new TraktFilterError(`Filter '${filter}' is invalid: unknown status '${value}'.`);
       return false;
     }
     return true;
@@ -251,7 +252,7 @@ export const TraktApiFilterValidator = {
     const values = Array.isArray(value) ? value : [value];
 
     if (filter === TraktApiEpisodeFilter.EpisodeTypes && !values.some(v => TraktEpisodeTypeValues.includes(v.toString()))) {
-      if (error) throw new Error(`Filter '${filter}' is invalid: unknown episode type '${value}'.`);
+      if (error) throw new TraktFilterError(`Filter '${filter}' is invalid: unknown episode type '${value}'.`);
       return false;
     }
     return true;

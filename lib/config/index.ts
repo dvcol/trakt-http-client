@@ -5,4 +5,8 @@ export const Config = {
     /** Staging endpoint */
     Staging: 'https://api-staging.trakt.tv',
   },
+  verification: {
+    url: 'https://trakt.tv/activate',
+    code: (code: string) => `https://trakt.tv/activate/${code}`,
+  },
 };
