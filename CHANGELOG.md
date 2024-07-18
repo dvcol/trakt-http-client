@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.1](https://github.com/dvcol/trakt-http-client/compare/v1.4.0...v1.4.1) (2024-07-18)
+
+
+### Bug Fixes
+
+* **checkin:** fix watching query type signature ([f583c66](https://github.com/dvcol/trakt-http-client/commit/f583c66f488ee68981aa788b30aea662b1bc0030))
+
 ## [1.4.0](https://github.com/dvcol/trakt-http-client/compare/v1.3.6...v1.4.0) (2024-07-16)
 
 
