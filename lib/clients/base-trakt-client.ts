@@ -18,6 +18,7 @@ import type {
 import type { Primitive } from '~/utils/typescript.utils';
 
 import { isFilter, TraktApiFilterValidator } from '~/api/trakt-api.filters';
+import { TraktExpiredTokenError, TraktFilterError, TraktInvalidParameterError, TraktValidationError } from '~/models';
 import { TraktApiHeaders } from '~/models/trakt-client.model';
 
 /**
@@ -172,12 +173,12 @@ export class BaseTraktClient extends BaseClient<TraktApiQuery, TraktApiResponse,
     };
 
     if (template.opts?.auth === true && !this.auth.access_token) {
-      throw Error('OAuth required: access_token is missing');
+      throw new TraktInvalidParameterError('OAuth required: access_token is missing');
     } else if (template.opts?.auth && this.auth.access_token) {
       if (this.auth.expires !== undefined && this.auth.expires > Date.now()) {
         headers[TraktApiHeaders.Authorization] = `Bearer ${this.auth.access_token}`;
       } else {
-        throw Error('OAuth required: access_token has expired');
+        throw new TraktExpiredTokenError('OAuth required: access_token has expired');
       }
     }
 
@@ -207,11 +208,11 @@ export class BaseTraktClient extends BaseClient<TraktApiQuery, TraktApiResponse,
     if (_template.opts?.filters?.length && params.filters) {
       Object.entries(params.filters as { [s: string]: Primitive | Primitive[] }).forEach(([key, value]) => {
         if (!isFilter(key) || !_template.opts?.filters?.includes(key)) {
-          throw Error(`Filter is not supported: '${key}'`);
+          throw new TraktFilterError(`Filter is not supported: '${key}'`);
         }
 
         if (!TraktApiFilterValidator.validate(key, value, true)) {
-          throw Error(`Filter '${key}' is invalid: '${value}'`);
+          throw new TraktValidationError(`Filter '${key}' is invalid: '${value}'`);
         }
 
         queryParams.set(key, `${value}`);
@@ -229,7 +230,7 @@ export class BaseTraktClient extends BaseClient<TraktApiQuery, TraktApiResponse,
       const templateExtended = _template.opts.extended;
       const paramsExtended = Array.isArray(params.extended) ? params.extended : [params.extended];
       if (paramsExtended.some(e => !templateExtended.includes(e))) {
-        throw Error(`Invalid value '${params.extended}', extended should be '${_template.opts.extended.join(', ')}'`);
+        throw new TraktInvalidParameterError(`Invalid value '${params.extended}', extended should be '${_template.opts.extended.join(', ')}'`);
       }
       queryParams.set('extended', `${params.extended}`);
     }

@@ -109,12 +109,7 @@ export class TraktClient extends BaseTraktClient {
 
       const body = await response.json();
 
-      this.updateAuth(auth => ({
-        ...auth,
-        refresh_token: body.refresh_token,
-        access_token: body.access_token,
-        expires: (body.created_at + body.expires_in) * 1000,
-      }));
+      this.updateAuth(auth => parseAuthResponse(body, auth));
 
       return this.auth;
     } catch (error) {

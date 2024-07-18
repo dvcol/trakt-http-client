@@ -5,6 +5,7 @@ export const TraktErrorTypes = {
   TraktRateLimitError: 'TraktRateLimitError',
   TraktInvalidParameterError: 'TraktInvalidParameterError',
   TraktPollingExpiredError: 'TraktPollingExpiredError',
+  TraktExpiredTokenError: 'TraktExpiredTokenError',
 };
 
 export class TraktValidationError extends Error {
@@ -46,5 +47,12 @@ export class TraktPollingExpiredError extends Error {
   constructor(message?: string) {
     super(message);
     this.name = TraktErrorTypes.TraktPollingExpiredError;
+  }
+}
+
+export class TraktExpiredTokenError extends Error {
+  constructor(message?: string) {
+    super(message);
+    this.name = TraktErrorTypes.TraktExpiredTokenError;
   }
 }
