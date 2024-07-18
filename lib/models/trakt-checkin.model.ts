@@ -34,7 +34,7 @@ export type TraktCheckinError = {
 
 type TraktCheckinRequestMovie = {
   /** Movie to be checked-in */
-  movie: TraktMovie;
+  movie: Partial<TraktMovie> & { ids: Pick<TraktMovie['ids'], 'trakt'> & Partial<Omit<TraktMovie['ids'], 'trakt'>> };
 };
 
 type TraktCheckinRequestShow = {
@@ -46,7 +46,7 @@ type TraktCheckinRequestShow = {
 
 type TraktCheckinRequestEpisode = {
   /** Episode to be checked-in. If no show is provided, traktv ids are required */
-  episode: Partial<TraktEpisode> & Pick<TraktEpisode, 'ids'>;
+  episode: Partial<TraktEpisode> & { ids: Pick<TraktEpisode['ids'], 'trakt'> & Partial<Omit<TraktEpisode['ids'], 'trakt'>> };
 };
 
 type TraktCheckinRequestItem<T extends 'movie' | 'show' | 'episode' | Any = Any> = T extends 'movie'

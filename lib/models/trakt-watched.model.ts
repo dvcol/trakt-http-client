@@ -32,13 +32,13 @@ type BaseTraktWatched = {
 export type TraktWatched<T extends 'movie' | 'show' | Any = Any, N extends 'no-seasons' | Short | Any = Any> = BaseTraktWatched &
   (T extends 'movie' ? { movie: TraktMovie } : T extends 'show' ? TraktWatchedShow<N> : { movie: TraktMovie } | TraktWatchedShow<N>);
 
-export type TraktWatching<T extends 'movie' | 'show' | Any = Any> = {
+export type TraktWatching<T extends 'movie' | 'episode' | Any = Any> = {
   expires_at: string;
   started_at: string;
-  action: 'scrobble';
-  type: T extends Any ? 'movie' | 'show' : T;
+  action: 'scrobble' | 'checkin';
+  type: T extends Any ? 'movie' | 'episode' : T;
 } & (T extends 'movie'
   ? { movie: TraktMovie }
-  : T extends 'show'
+  : T extends 'episode'
     ? { episode: TraktEpisode; show: TraktShow }
     : { movie: TraktMovie } | { episode: TraktEpisode; show: TraktShow });
