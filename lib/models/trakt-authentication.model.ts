@@ -23,6 +23,7 @@ export type TraktAuthenticationError = {
 export type TraktClientAuthentication = {
   refresh_token?: string;
   access_token?: string;
+  created?: number;
   expires?: number;
   state?: string;
 };

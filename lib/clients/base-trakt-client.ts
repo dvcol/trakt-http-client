@@ -47,6 +47,7 @@ export const parseAuthResponse = <T extends TraktAuthentication>(response: T, au
   ...auth,
   refresh_token: response.refresh_token,
   access_token: response.access_token,
+  created: response.created_at * 1000,
   expires: (response.created_at + response.expires_in) * 1000,
 });
 

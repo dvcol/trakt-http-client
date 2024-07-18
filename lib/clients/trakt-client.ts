@@ -206,7 +206,7 @@ export class TraktClient extends BaseTraktClient {
       this.updateAuth(auth => parseAuthResponse(body, auth));
 
       clearInterval(this.polling);
-      return body;
+      return this.auth;
     } catch (error) {
       // do nothing on 400
       if (isResponse(error) && error.status === 400) {
@@ -245,7 +245,7 @@ export class TraktClient extends BaseTraktClient {
 
     const timeout = Date.now() + poll.expires_in * 1000;
 
-    const promise$ = new Promise<TraktAuthentication>((resolve, reject) => {
+    const promise$ = new Promise<TraktClientAuthentication>((resolve, reject) => {
       const pollDevice = () =>
         this._devicePolling(poll, timeout)
           .then(body => {
