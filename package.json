@@ -3,7 +3,7 @@
   "type": "module",
   "version": "1.4.3",
   "packageManager": "pnpm@9.1.0",
-  "description": "Simple fetch based http client for trakt.tv API",
+  "description": "Simple fetch based http client for trakt.tv API with full typescript support (request and response).",
   "homepage": "https://github.com/dvcol/trakt-http-client",
   "bugs": "https://github.com/dvcol/trakt-http-client/issues",
   "keywords": [
