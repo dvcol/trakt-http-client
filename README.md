@@ -89,4 +89,4 @@ See [Trakt API documentation](https://trakt.docs.apiary.io/) for more informatio
 
 ## 📝 License
 
-This project is [MIT](https://github.com/dvcol/trakt-extension/blob/master/LICENSE) licensed.
+This project is [MIT](https://github.com/dvcol/trakt-http-client/blob/master/LICENSE) licensed.
