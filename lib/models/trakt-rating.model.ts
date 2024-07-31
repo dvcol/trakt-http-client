@@ -1,9 +1,28 @@
+import type { TraktApiExtended, TraktApiParamsExtended, TraktApiParamsPagination } from '~/models/trakt-client.model';
 import type { Any, EntityTypes } from '~/models/trakt-entity.model';
 import type { TraktEpisode } from '~/models/trakt-episode.model';
 import type { TraktMovie } from '~/models/trakt-movie.model';
 import type { TraktSeason } from '~/models/trakt-season.model';
 import type { TraktShow } from '~/models/trakt-show.model';
 import type { BaseSyncRequestItem } from '~/models/trakt-sync.model';
+
+export const TraktRatingType = {
+  Movies: 'movies',
+  Shows: 'shows',
+  Seasons: 'seasons',
+  Episodes: 'episodes',
+} as const;
+
+export type TraktRatingTypes = (typeof TraktRatingType)[keyof typeof TraktRatingType];
+
+export type TraktSyncRatingValue = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+
+export type TraktSyncRatingRequest = TraktApiParamsPagination &
+  TraktApiParamsExtended<typeof TraktApiExtended.Full> & {
+    type?: TraktRatingTypes | 'all';
+    /** Filter for a specific rating. */
+    rating?: TraktSyncRatingValue;
+  };
 
 type BaseTraktRatingItem<E extends EntityTypes = Any> = {
   movie: TraktMovie<E>;

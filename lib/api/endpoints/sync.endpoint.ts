@@ -25,7 +25,8 @@ import type {
   TraktHistoryRequest,
 } from '~/models/trakt-history.model';
 import type { TraktListReordered } from '~/models/trakt-list.model';
-import type { TraktRating, TraktRatingAdded, TraktRatingRemoved, TraktRatingRequest } from '~/models/trakt-rating.model';
+
+import type { TraktRating, TraktRatingAdded, TraktRatingRemoved, TraktRatingRequest, TraktSyncRatingRequest } from '~/models/trakt-rating.model';
 import type { TraktSyncActivities, TraktSyncProgress, TraktSyncRequest, TraktSyncUpdateRequest } from '~/models/trakt-sync.model';
 import type { TraktWatched } from '~/models/trakt-watched.model';
 import type {
@@ -402,15 +403,7 @@ export const sync = {
      *
      * @see [get-ratings]{@link https://trakt.docs.apiary.io/#reference/sync/get-ratings/get-ratings}
      */
-    get: new TraktClientEndpoint<
-      {
-        type?: 'movies' | 'shows' | 'seasons' | 'episodes' | 'all';
-        /** Filter for a specific rating. */
-        rating?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
-      } & TraktApiParamsExtended<typeof TraktApiExtended.Full> &
-        TraktApiParamsPagination,
-      TraktRating[]
-    >({
+    get: new TraktClientEndpoint<TraktSyncRatingRequest, TraktRating[]>({
       method: HttpMethod.GET,
       url: '/sync/ratings/:type/:rating',
       opts: {
