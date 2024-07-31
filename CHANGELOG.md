@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.5](https://github.com/dvcol/trakt-http-client/compare/v1.4.4...v1.4.5) (2024-07-31)
+
+
+### Bug Fixes
+
+* **sync:** export rating sync request ([b27fcb0](https://github.com/dvcol/trakt-http-client/commit/b27fcb04bff0bbf2540ceec7d8201545cfa2a81b))
+
 ### [1.4.4](https://github.com/dvcol/trakt-http-client/compare/v1.4.3...v1.4.4) (2024-07-20)
 
 ### [1.4.3](https://github.com/dvcol/trakt-http-client/compare/v1.4.2...v1.4.3) (2024-07-18)
