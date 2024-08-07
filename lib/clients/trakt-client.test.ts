@@ -9,7 +9,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { minimalTraktApi } from '../api/trakt-api-minimal.endpoints';
 import { traktApi } from '../api/trakt-api.endpoints';
 
-import { traktClientSettingsMock } from '../mocks/tratk-settings.mock';
+import { traktClientSettingsMock } from '../mocks/trakt-settings.mock';
 
 import { parseAuthResponse } from './base-trakt-client';
 import { TraktClient } from './trakt-client';

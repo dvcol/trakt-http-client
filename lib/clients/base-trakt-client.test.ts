@@ -3,7 +3,7 @@ import { HttpMethod } from '@dvcol/common-utils/http';
 import { CancellableFetch } from '@dvcol/common-utils/http/fetch';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import { traktClientSettingsMock } from '../mocks/tratk-settings.mock';
+import { traktClientSettingsMock } from '../mocks/trakt-settings.mock';
 
 import { BaseTraktClient, parseResponse } from './base-trakt-client';
 
