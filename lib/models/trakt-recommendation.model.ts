@@ -1,8 +1,8 @@
+import type { ExclusiveUnion } from '@dvcol/common-utils/common/models';
 import type { Any, EntityTypes } from '~/models/trakt-entity.model';
 import type { TraktMovie } from '~/models/trakt-movie.model';
 import type { TraktShow } from '~/models/trakt-show.model';
 import type { TraktUser } from '~/models/trakt-user.model';
-import type { ExclusiveUnion } from '~/utils/typescript.utils';
 
 type BaseTraktRecommendation = {
   favorited_by: (TraktUser & { notes: string })[];

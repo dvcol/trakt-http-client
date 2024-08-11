@@ -1,5 +1,6 @@
 import { BaseClient, BaseHeaderContentType, injectCorsProxyPrefix, parseUrl } from '@dvcol/base-http-client';
 
+import type { Primitive } from '@dvcol/common-utils/common/models';
 import type { TraktApi } from '~/api/trakt-api.endpoints';
 
 import type { TraktAuthentication, TraktClientAuthentication } from '~/models/trakt-authentication.model';
@@ -14,8 +15,6 @@ import type {
   TraktClientOptions,
   TraktClientSettings,
 } from '~/models/trakt-client.model';
-
-import type { Primitive } from '~/utils/typescript.utils';
 
 import { isFilter, TraktApiFilterValidator } from '~/api/trakt-api.filters';
 import { TraktExpiredTokenError, TraktFilterError, TraktInvalidParameterError, TraktValidationError } from '~/models';

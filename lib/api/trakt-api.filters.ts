@@ -1,4 +1,4 @@
-import type { Primitive } from '~/utils/typescript.utils';
+import type { Primitive } from '@dvcol/common-utils/common/models';
 
 import { TraktEpisodeTypeValues } from '~/models/trakt-episode.model';
 import { TraktFilterError } from '~/models/trakt-error.model';

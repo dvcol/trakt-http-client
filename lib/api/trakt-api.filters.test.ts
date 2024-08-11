@@ -9,7 +9,7 @@ import {
   TraktApiShowFilter,
 } from './trakt-api.filters';
 
-import type { Primitive } from '~/utils/typescript.utils';
+import type { Primitive } from '@dvcol/common-utils/common/models';
 
 import { TraktEpisodeType } from '~/models/trakt-episode.model';
 import { TraktShowStatus } from '~/models/trakt-show.model';

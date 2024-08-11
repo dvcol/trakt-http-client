@@ -11,11 +11,10 @@ import type {
   BaseTemplateOptions,
   ResponseOrTypedResponse,
 } from '@dvcol/base-http-client';
+import type { Primitive, RecursiveRecord } from '@dvcol/common-utils/common/models';
 import type { CancellablePromise } from '@dvcol/common-utils/http/fetch';
 
 import type { TraktApiFilters } from '~/api/trakt-api.filters';
-
-import type { Primitive, RecursiveRecord } from '~/utils/typescript.utils';
 
 /**
  * Pagination data parsed from {@link TraktApiResponse} headers.

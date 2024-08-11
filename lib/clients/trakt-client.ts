@@ -1,3 +1,5 @@
+import { randomHex } from '@dvcol/common-utils/common/crypto';
+
 import { BaseTraktClient, isResponseOk, parseAuthResponse } from './base-trakt-client';
 
 import type {
@@ -17,7 +19,6 @@ import { minimalTraktApi } from '~/api/trakt-api-minimal.endpoints';
 import { TraktApiHeaders } from '~/models/trakt-client.model';
 
 import { TraktInvalidParameterError, TraktPollingExpiredError, TraktRateLimitError, TraktUnauthorizedError } from '~/models/trakt-error.model';
-import { randomHex } from '~/utils/crypto.utils';
 
 /**
  * Type guard to check if the error is a Response

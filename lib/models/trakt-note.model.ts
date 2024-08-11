@@ -1,3 +1,4 @@
+import type { RequireAtLeastOne } from '@dvcol/common-utils/common/models';
 import type { Any } from '~/models/trakt-entity.model';
 import type { TraktEpisode } from '~/models/trakt-episode.model';
 import type { TraktMovie } from '~/models/trakt-movie.model';
@@ -5,7 +6,6 @@ import type { TraktPerson } from '~/models/trakt-people.model';
 import type { TraktSeason } from '~/models/trakt-season.model';
 import type { TraktShow } from '~/models/trakt-show.model';
 import type { TraktUser } from '~/models/trakt-user.model';
-import type { RequireAtLeastOne } from '~/utils/typescript.utils';
 
 type BaseTraktNote = {
   /** Text for the notes */

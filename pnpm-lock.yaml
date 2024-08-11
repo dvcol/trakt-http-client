@@ -12,8 +12,8 @@ importers:
         specifier: ^1.10.0
         version: 1.10.0
       '@dvcol/common-utils':
-        specifier: ^1.2.2
-        version: 1.2.2
+        specifier: ^1.10.0
+        version: 1.10.0
     devDependencies:
       '@commitlint/cli':
         specifier: ^19.3.0
@@ -198,8 +198,8 @@ packages:
     resolution: {integrity: sha512-kNSO7IePifulnkTihfm+9YxFgJXcogtZ2AUW1NKkeLbmBxRldCsO4wVOXdTEjHxSU4jLHHUnxDfjttbw5hzuAA==}
     engines: {node: '>=20', pnpm: '>= 8'}
 
-  '@dvcol/common-utils@1.2.2':
-    resolution: {integrity: sha512-7fDxYpYlEfLuwMoDv1/RW33k4aa7CYmJ/TgfW9qgNrgPH9qYoQ8zj9zWyhiQ9Ra6LC3kjRpUXSVgbgzN+isIdA==}
+  '@dvcol/common-utils@1.10.0':
+    resolution: {integrity: sha512-74tmv1/NXR5dUkb+aTyFIdKPhAWFuuy3MrWW2nIShnVk35JTUfOxheZ1GrlyWWdY/kjnM1oJ5SrpZ252rcnWIQ==}
     engines: {node: '>=20', pnpm: '>= 8'}
 
   '@dvcol/eslint-plugin-presets@1.3.10':
@@ -2538,6 +2538,10 @@ packages:
     engines: {node: '>=14'}
     hasBin: true
 
+  pretty-bytes@6.1.1:
+    resolution: {integrity: sha512-mQUvGU6aUFQ+rNvTIAcZuWGRT9a6f6Yrg9bHs4ImKF+HZCEK+plBvnAZYSIQztknZF2qnzNtr6F8s0+IuptdlQ==}
+    engines: {node: ^14.13.1 || >=16.0.0}
+
   pretty-format@29.7.0:
     resolution: {integrity: sha512-Pdlw/oPxN+aXdmM9R00JVC9WVFoCLTKJvDVLgmJ+qAffBMxsV85l/Lu7sNx4zSzPyoL2euImuEwHhOXdEgNFZQ==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
@@ -3327,9 +3331,11 @@ snapshots:
 
   '@dvcol/base-http-client@1.10.0':
     dependencies:
-      '@dvcol/common-utils': 1.2.2
+      '@dvcol/common-utils': 1.10.0
 
-  '@dvcol/common-utils@1.2.2': {}
+  '@dvcol/common-utils@1.10.0':
+    dependencies:
+      pretty-bytes: 6.1.1
 
   '@dvcol/eslint-plugin-presets@1.3.10(p3xz7634vc6y4ezreptpdazoiu)':
     dependencies:
@@ -5706,6 +5712,8 @@ snapshots:
       fast-diff: 1.3.0
 
   prettier@3.2.5: {}
+
+  pretty-bytes@6.1.1: {}
 
   pretty-format@29.7.0:
     dependencies:

@@ -1,3 +1,4 @@
+import type { RequireAtLeastOne } from '@dvcol/common-utils/common/models';
 import type { TraktComment, TraktCommentMedia } from '~/models/trakt-comment.model';
 import type { Any, EntityTypes, Extended, Short } from '~/models/trakt-entity.model';
 import type { TraktApiIds } from '~/models/trakt-id.model';
@@ -5,7 +6,6 @@ import type { TraktList } from '~/models/trakt-list.model';
 import type { TraktMovie } from '~/models/trakt-movie.model';
 import type { TraktSeason } from '~/models/trakt-season.model';
 import type { TraktShow } from '~/models/trakt-show.model';
-import type { RequireAtLeastOne } from '~/utils/typescript.utils';
 
 export type TraktPrivateUser = {
   username: string;

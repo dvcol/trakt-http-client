@@ -1,6 +1,6 @@
+import type { RequireAtLeastOne } from '@dvcol/common-utils/common/models';
 import type { TraktApiParams, TraktApiTemplate } from '~/models/trakt-client.model';
 import type { TraktApiIds } from '~/models/trakt-id.model';
-import type { RequireAtLeastOne } from '~/utils/typescript.utils';
 
 import { TraktApiTransforms } from '~/api/trakt-api.transforms';
 import { TraktApiValidators } from '~/api/trakt-api.validators';
