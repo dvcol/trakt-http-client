@@ -34,8 +34,8 @@ const isResponse = <T>(error: T | Response): error is Response => error && typeo
 const handleError = <T>(error: T | Response) => {
   if (!isResponse(error)) return error;
 
-  if (error.status === 401 && error.headers.has('www-authenticate')) {
-    return new TraktUnauthorizedError(error.headers.get('www-authenticate')!);
+  if (error.status === 401 && error.headers.has(TraktApiHeaders.Authenticate)) {
+    return new TraktUnauthorizedError(error.headers.get(TraktApiHeaders.Authenticate)!);
   }
   if (error.status === 429 && error.headers.has(TraktApiHeaders.XRatelimit)) {
     return new TraktRateLimitError(error.headers.get(TraktApiHeaders.XRatelimit)!);
@@ -298,14 +298,13 @@ export class TraktClient extends BaseTraktClient {
    *
    * Once redirected back to the application, the code should be exchanged for an access token using {@link exchangeCodeForToken}.
    *
-   * @param redirect - The type of redirect to use (defaults to manual).
    * @param redirect_uri - The URL to redirect to after the user has authorized the application (defaults to client settings).
    * @param request - Additional parameters for the authorization request.
    * @returns A promise resolving to the url to authorize the application.
    *
    * @see [authorize]{@link https://trakt.docs.apiary.io/#reference/authentication-oauth/authorize}
    */
-  redirectToAuthenticationUrl({ redirect, redirect_uri, ...request }: TraktAuthenticationApprove = {}) {
+  redirectToAuthenticationUrl({ redirect_uri, ...request }: Omit<TraktAuthenticationApprove, 'redirect'> = {}) {
     this.updateAuth(auth => ({ ...auth, state: request.state ?? randomHex() }));
     return this.authentication.oAuth.authorize
       .resolve({

@@ -267,4 +267,6 @@ export const TraktApiHeaders = {
   ContentType: BaseApiHeaders.ContentType,
   /** The authorization token bearer */
   Authorization: BaseApiHeaders.Authorization,
+  /** The authentication methods ("challenges") that might be used to gain access to a specific resource. */
+  Authenticate: BaseApiHeaders.Authenticate,
 } as const;

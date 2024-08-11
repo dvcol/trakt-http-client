@@ -186,7 +186,7 @@
   },
   "peerDependencies": {},
   "dependencies": {
-    "@dvcol/base-http-client": "^1.10.0",
+    "@dvcol/base-http-client": "^1.12.0",
     "@dvcol/common-utils": "^1.10.0"
   },
   "devDependencies": {
