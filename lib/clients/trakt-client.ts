@@ -306,6 +306,7 @@ export class TraktClient extends BaseTraktClient {
    * @see [authorize]{@link https://trakt.docs.apiary.io/#reference/authentication-oauth/authorize}
    */
   redirectToAuthenticationUrl({ redirect, redirect_uri, ...request }: TraktAuthenticationApprove = {}) {
+    this.updateAuth(auth => ({ ...auth, state: request.state ?? randomHex() }));
     return this.authentication.oAuth.authorize
       .resolve({
         response_type: 'code',
