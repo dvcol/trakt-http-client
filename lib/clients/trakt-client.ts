@@ -18,7 +18,13 @@ import type { ITraktApi, TraktApiInit, TraktApiResponse, TraktClientOptions } fr
 import { minimalTraktApi } from '~/api/trakt-api-minimal.endpoints';
 import { TraktApiHeaders } from '~/models/trakt-client.model';
 
-import { TraktInvalidParameterError, TraktPollingExpiredError, TraktRateLimitError, TraktUnauthorizedError } from '~/models/trakt-error.model';
+import {
+  TraktInvalidCsrfError,
+  TraktInvalidParameterError,
+  TraktPollingExpiredError,
+  TraktRateLimitError,
+  TraktUnauthorizedError,
+} from '~/models/trakt-error.model';
 
 /**
  * Type guard to check if the error is a Response
@@ -34,12 +40,8 @@ const isResponse = <T>(error: T | Response): error is Response => error && typeo
 const handleError = <T>(error: T | Response) => {
   if (!isResponse(error)) return error;
 
-  if (error.status === 401 && error.headers.has(TraktApiHeaders.Authenticate)) {
-    return new TraktUnauthorizedError(error.headers.get(TraktApiHeaders.Authenticate)!);
-  }
-  if (error.status === 429 && error.headers.has(TraktApiHeaders.XRatelimit)) {
-    return new TraktRateLimitError(error.headers.get(TraktApiHeaders.XRatelimit)!);
-  }
+  if (error.status === 401) return new TraktUnauthorizedError(error.headers.get(TraktApiHeaders.Authenticate)! ?? error.statusText, error);
+  if (error.status === 429) return new TraktRateLimitError(error.headers.get(TraktApiHeaders.XRatelimit) ?? error.statusText, error);
 
   return error;
 };
@@ -328,7 +330,7 @@ export class TraktClient extends BaseTraktClient {
    * @throws Error Throws an error if the CSRF token is invalid.
    */
   exchangeCodeForToken(code: string, state?: string) {
-    if (state && state !== this.auth.state) throw Error('Invalid CSRF (State)');
+    if (state && state !== this.auth.state) throw new TraktInvalidCsrfError({ state, expected: this.auth.state });
     return this._exchange({ code });
   }
 
@@ -340,9 +342,7 @@ export class TraktClient extends BaseTraktClient {
    * @throws Error Throws an error if no refresh token is found.
    */
   refreshToken(refresh_token = this.auth.refresh_token) {
-    if (!refresh_token) {
-      throw new TraktInvalidParameterError('No refresh token found.');
-    }
+    if (!refresh_token) throw new TraktInvalidParameterError('No refresh token found.');
     return this._exchange({ refresh_token });
   }
 
