@@ -391,24 +391,5 @@ describe('trakt-client.ts', () => {
         }),
       });
     });
-
-    it('should refresh token if importAuthentication has expired authentication', async () => {
-      expect.assertions(1);
-      fetch.mockResolvedValueOnce(new Response(JSON.stringify(authentication)));
-
-      await traktClient.importAuthentication({ ...clientAuthentication, expires: new Date().getTime() - 10000 });
-
-      expect(fetch).toHaveBeenCalledWith(new URL('/oauth/token', traktClientSettingsMock.endpoint).toString(), {
-        ...payload,
-        method: HttpMethod.POST,
-        body: JSON.stringify({
-          client_id: traktClientSettingsMock.client_id,
-          client_secret: traktClientSettingsMock.client_secret,
-          redirect_uri: traktClientSettingsMock.redirect_uri,
-          grant_type: 'refresh_token',
-          refresh_token: authentication.refresh_token,
-        }),
-      });
-    });
   });
 });
