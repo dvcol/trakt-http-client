@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.6](https://github.com/dvcol/trakt-http-client/compare/v1.4.5...v1.4.6) (2024-08-13)
+
+
+### Bug Fixes
+
+* **auth:** persist state when generating urls ([e1fb1ee](https://github.com/dvcol/trakt-http-client/commit/e1fb1eea04d1fec783792d094f57c79a6a1346d1))
+* **errors:** propagate error response on 401 & 429 ([11cda17](https://github.com/dvcol/trakt-http-client/commit/11cda17330493452ad8f8290adff0c5e998a0315))
+
 ### [1.4.5](https://github.com/dvcol/trakt-http-client/compare/v1.4.4...v1.4.5) (2024-07-31)
 
 
