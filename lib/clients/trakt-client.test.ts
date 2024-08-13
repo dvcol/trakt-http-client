@@ -11,6 +11,8 @@ import { traktApi } from '../api/trakt-api.endpoints';
 
 import { traktClientSettingsMock } from '../mocks/trakt-settings.mock';
 
+import { TraktInvalidCsrfError } from '../models';
+
 import { parseAuthResponse } from './base-trakt-client';
 import { TraktClient } from './trakt-client';
 
@@ -298,8 +300,8 @@ describe('trakt-client.ts', () => {
         error = err as Error;
       } finally {
         expect(error).toBeDefined();
-        expect(error).toBeInstanceOf(Error);
-        expect(error?.message).toBe('Invalid CSRF (State)');
+        expect(error).toBeInstanceOf(TraktInvalidCsrfError);
+        expect(error?.message).toBe("Invalid CSRF (State): expected '0e44c45dd73fb296', but received invalid_state");
       }
     });
 
