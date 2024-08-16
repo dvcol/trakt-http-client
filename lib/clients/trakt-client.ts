@@ -19,8 +19,10 @@ import { minimalTraktApi } from '~/api/trakt-api-minimal.endpoints';
 import { TraktApiHeaders } from '~/models/trakt-client.model';
 
 import {
+  TraktApiError,
   TraktInvalidCsrfError,
   TraktInvalidParameterError,
+  TraktPollingCancelledError,
   TraktPollingExpiredError,
   TraktRateLimitError,
   TraktUnauthorizedError,
@@ -54,7 +56,8 @@ const handleError = <T>(error: T | Response) => {
  * @extends {BaseTraktClient}
  */
 export class TraktClient extends BaseTraktClient {
-  private polling: ReturnType<typeof setTimeout> | undefined;
+  protected polling: ReturnType<typeof setTimeout> | undefined;
+  protected poll: TraktDeviceAuthentication | undefined;
 
   /**
    * Indicates if the current environment is a staging environment.
@@ -89,11 +92,9 @@ export class TraktClient extends BaseTraktClient {
    *
    * @throws Error Throws an error if the exchange fails or an error is received from the server.
    *
-   * @private
-   *
    * @see handleError
    */
-  private async _exchange(request: Pick<TraktAuthenticationCodeRequest, 'code'> | Pick<TraktAuthenticationRefreshRequest, 'refresh_token'>) {
+  protected async _exchange(request: Pick<TraktAuthenticationCodeRequest, 'code'> | Pick<TraktAuthenticationRefreshRequest, 'refresh_token'>) {
     const _request: TraktAuthenticationBaseRequest = {
       client_id: this.settings.client_id,
       client_secret: this.settings.client_secret,
@@ -129,11 +130,9 @@ export class TraktClient extends BaseTraktClient {
    *
    * @throws Error Throws an error if no access token is found.
    *
-   * @private
-   *
    * @see isResponseOk
    */
-  private async _revoke(request: Partial<TraktAuthenticationRevokeRequest> = {}) {
+  protected async _revoke(request: Partial<TraktAuthenticationRevokeRequest> = {}) {
     if (!request && !this.auth.access_token) throw new TraktInvalidParameterError('No access token found.');
 
     const _request: TraktAuthenticationRevokeRequest = {
@@ -161,11 +160,9 @@ export class TraktClient extends BaseTraktClient {
    *
    * @throws Error Throws an error if the device authentication fails.
    *
-   * @private
-   *
    * @see handleError
    */
-  private async _device<T extends string | null>(code: T): Promise<T extends null ? TraktDeviceAuthentication : TraktAuthentication> {
+  protected async _device<T extends string | null>(code: T): Promise<T extends null ? TraktDeviceAuthentication : TraktAuthentication> {
     try {
       let response: TraktApiResponse<TraktAuthentication | TraktDeviceAuthentication>;
       if (code) {
@@ -185,6 +182,17 @@ export class TraktClient extends BaseTraktClient {
     }
   }
 
+  protected _clearPolling() {
+    // If polling already cancelled
+    if (this.polling === undefined) return;
+    clearInterval(this.polling);
+    this.polling = undefined;
+  }
+
+  protected _clearPoll() {
+    this.poll = undefined;
+  }
+
   /**
    * Polls the device authentication endpoint to complete the authentication.
    * If the timeout is reached, the polling is cancelled and an error is thrown.
@@ -194,31 +202,24 @@ export class TraktClient extends BaseTraktClient {
    * @param timeout - The timeout in milliseconds.
    *
    * @returns A promise resolving to the authentication information if successful
-   *
-   * @private
    */
-  private async _devicePolling(poll: TraktDeviceAuthentication, timeout: number) {
-    if (timeout <= Date.now()) {
-      clearInterval(this.polling);
-      throw new TraktPollingExpiredError('Polling expired');
-    }
+  protected async _devicePolling(poll: TraktDeviceAuthentication = this.poll, timeout: number): Promise<TraktClientAuthentication | null> {
+    // If polling already cancelled
+    if (this.polling === undefined) return;
+    if (!poll?.device_code) throw new TraktInvalidParameterError('No device code found.');
+    if (timeout <= Date.now()) throw new TraktPollingExpiredError();
 
     try {
       const body = await this._device(poll.device_code);
-
       this.updateAuth(auth => parseAuthResponse(body, auth));
-
-      clearInterval(this.polling);
       return this.auth;
     } catch (error) {
-      // do nothing on 400
-      if (isResponse(error) && error.status === 400) {
-        console.info('Polling in progress...');
-        return;
-      }
-
-      clearInterval(this.polling);
-      throw error;
+      // is error or other error than 400, throw error
+      if (!isResponse(error)) throw error;
+      if (error.status !== 400) throw new TraktApiError(error.statusText, error);
+      // If 400 continue polling
+      console.info('Polling in progress...');
+      return null;
     }
   }
 
@@ -229,8 +230,14 @@ export class TraktClient extends BaseTraktClient {
    *
    * @returns A promise resolving to the device authentication information.
    */
-  getDeviceCode() {
-    return this._device<null>(null);
+  async getDeviceCode() {
+    try {
+      this.poll = await this._device<null>(null);
+      return this.poll;
+    } catch (error) {
+      this._clearPoll();
+      throw error;
+    }
   }
 
   /**
@@ -240,26 +247,38 @@ export class TraktClient extends BaseTraktClient {
    *
    * @returns  A promise resolving to the completed authentication information or `undefined`.
    */
-  pollWithDeviceCode(poll: TraktDeviceAuthentication): CancellablePolling {
+  pollWithDeviceCode(poll: TraktDeviceAuthentication = this.poll): CancellablePolling {
+    if (!poll?.device_code) throw new TraktInvalidParameterError('No device code found.');
     if (this.polling) {
-      clearInterval(this.polling);
+      this._clearPolling();
       console.warn('Polling already in progress, cancelling previous one...');
     }
 
     const timeout = Date.now() + poll.expires_in * 1000;
 
-    const promise$ = new Promise<TraktClientAuthentication>((resolve, reject) => {
-      const pollDevice = () =>
-        this._devicePolling(poll, timeout)
-          .then(body => {
-            if (body) resolve(body);
-          })
-          .catch(reject);
-
+    let reject: (reason?: any) => void;
+    const promise$ = new Promise<TraktClientAuthentication>((_resolve, _reject) => {
+      reject = _reject;
+      const pollDevice = async () => {
+        try {
+          const body = await this._devicePolling(poll, timeout);
+          if (body) return _resolve(body);
+        } catch (err) {
+          _reject(err);
+        } finally {
+          this._clearPolling();
+          this._clearPoll();
+        }
+      };
       this.polling = setInterval(pollDevice, poll.interval * 1000);
     }) as CancellablePolling;
-    promise$.cancel = () => clearInterval(this.polling);
-
+    // if cancelled clear polling interval
+    promise$.cancel = () => {
+      this._clearPolling();
+      this._clearPoll();
+      console.warn('Polling cancelled');
+      reject(new TraktPollingCancelledError());
+    };
     return promise$;
   }
 

@@ -11,7 +11,7 @@ import { traktApi } from '../api/trakt-api.endpoints';
 
 import { traktClientSettingsMock } from '../mocks/trakt-settings.mock';
 
-import { TraktInvalidCsrfError } from '../models';
+import { TraktApiError, TraktInvalidCsrfError, TraktInvalidParameterError, TraktPollingCancelledError } from '../models';
 
 import { parseAuthResponse } from './base-trakt-client';
 import { TraktClient } from './trakt-client';
@@ -23,8 +23,13 @@ import type { TraktApiResponse } from '~/models/trakt-client.model';
 
 import { TraktApiHeaders } from '~/models/trakt-client.model';
 
+class PublicTraktClient extends TraktClient {
+  public declare polling: ReturnType<typeof setTimeout> | undefined;
+  public declare poll: TraktDeviceAuthentication | undefined;
+}
+
 describe('trakt-client.ts', () => {
-  const traktClient = new TraktClient(traktClientSettingsMock, {}, traktApi);
+  const traktClient = new PublicTraktClient(traktClientSettingsMock, {}, traktApi);
   const fetch = vi.spyOn(CancellableFetch, 'fetch').mockResolvedValue(new Response());
 
   const payload = {
@@ -37,9 +42,22 @@ describe('trakt-client.ts', () => {
     method: HttpMethod.GET,
   };
 
+  const authentication: TraktAuthentication = {
+    access_token: 'access_token',
+    refresh_token: 'refresh_token',
+    expires_in: new Date().getTime() + 10000,
+    created_at: new Date().getTime(),
+    token_type: 'token_type',
+    scope: 'scope',
+  };
+
+  const clientAuthentication = parseAuthResponse(authentication);
+
   afterEach(async () => {
     await traktClient.importAuthentication({});
     await traktClient.clearCache();
+    traktClient.poll = undefined;
+    traktClient.polling = undefined;
 
     vi.clearAllMocks();
   });
@@ -144,98 +162,6 @@ describe('trakt-client.ts', () => {
         expect(fetch).toHaveBeenCalledTimes(2);
         expect(fetch).toHaveBeenCalledWith(new URL('/certifications/movies', traktClientSettingsMock.endpoint).toString(), payload);
       });
-    });
-
-    const deviceAuthentication: TraktDeviceAuthentication = {
-      device_code: 'device_code',
-      user_code: 'user_code',
-      verification_url: 'verification_url',
-      expires_in: new Date().getTime() + 10000,
-      interval: 0.01,
-    };
-
-    it('should get device code', async () => {
-      expect.assertions(2);
-
-      fetch.mockResolvedValueOnce(new Response(JSON.stringify(deviceAuthentication)));
-
-      await traktClient.getDeviceCode();
-
-      expect(fetch).toHaveBeenCalledWith(new URL('/oauth/device/code', traktClientSettingsMock.endpoint).toString(), {
-        ...payload,
-        method: HttpMethod.POST,
-        body: JSON.stringify({ client_id: traktClientSettingsMock.client_id }),
-      });
-
-      expect(fetch).toHaveBeenCalledTimes(1);
-    });
-
-    const authentication: TraktAuthentication = {
-      access_token: 'access_token',
-      refresh_token: 'refresh_token',
-      expires_in: new Date().getTime() + 10000,
-      created_at: new Date().getTime(),
-      token_type: 'token_type',
-      scope: 'scope',
-    };
-
-    const clientAuthentication = parseAuthResponse(authentication);
-
-    it('should poll with device code', async () => {
-      expect.assertions(2);
-
-      fetch.mockResolvedValueOnce(
-        new Response(JSON.stringify({ error: 'Invalid request' }), {
-          status: 400,
-        }),
-      );
-      fetch.mockResolvedValueOnce(new Response(JSON.stringify(authentication)));
-
-      await traktClient.pollWithDeviceCode(deviceAuthentication);
-
-      expect(fetch).toHaveBeenCalledWith(new URL('/oauth/device/token', traktClientSettingsMock.endpoint).toString(), {
-        ...payload,
-        method: HttpMethod.POST,
-        body: JSON.stringify({
-          client_id: traktClientSettingsMock.client_id,
-          client_secret: traktClientSettingsMock.client_secret,
-          code: 'device_code',
-        }),
-      });
-
-      expect(fetch).toHaveBeenCalledTimes(2);
-    });
-
-    it('should exit on error while polling with device code', async () => {
-      expect.assertions(5);
-
-      fetch.mockResolvedValueOnce(
-        new Response(JSON.stringify({ error: 'Invalid request' }), {
-          status: 500,
-        }),
-      );
-
-      let error: Response | undefined;
-      try {
-        await traktClient.pollWithDeviceCode(deviceAuthentication);
-      } catch (err) {
-        error = err as Response;
-      } finally {
-        expect(error).toBeDefined();
-        expect(error).toBeInstanceOf(Response);
-        expect(error?.status).toBe(500);
-        expect(fetch).toHaveBeenCalledWith(new URL('/oauth/device/token', traktClientSettingsMock.endpoint).toString(), {
-          ...payload,
-          method: HttpMethod.POST,
-          body: JSON.stringify({
-            client_id: traktClientSettingsMock.client_id,
-            client_secret: traktClientSettingsMock.client_secret,
-            code: 'device_code',
-          }),
-        });
-
-        expect(fetch).toHaveBeenCalledTimes(1);
-      }
     });
 
     it('should redirect to authorization url', async () => {
@@ -392,6 +318,163 @@ describe('trakt-client.ts', () => {
           client_secret: traktClientSettingsMock.client_secret,
         }),
       });
+    });
+  });
+
+  describe('polling', () => {
+    const deviceAuthentication: TraktDeviceAuthentication = {
+      device_code: 'device_code',
+      user_code: 'user_code',
+      verification_url: 'verification_url',
+      expires_in: new Date().getTime() + 10000,
+      interval: 0.01,
+    };
+
+    it('should get device code', async () => {
+      expect.assertions(2);
+
+      fetch.mockResolvedValueOnce(new Response(JSON.stringify(deviceAuthentication)));
+
+      await traktClient.getDeviceCode();
+
+      expect(fetch).toHaveBeenCalledWith(new URL('/oauth/device/code', traktClientSettingsMock.endpoint).toString(), {
+        ...payload,
+        method: HttpMethod.POST,
+        body: JSON.stringify({ client_id: traktClientSettingsMock.client_id }),
+      });
+
+      expect(fetch).toHaveBeenCalledTimes(1);
+    });
+
+    it('should store poll in memory', async () => {
+      expect.assertions(4);
+      vi.useFakeTimers();
+      fetch.mockResolvedValueOnce(new Response(JSON.stringify(deviceAuthentication)));
+
+      await traktClient.getDeviceCode();
+
+      expect(traktClient.poll).toBeDefined();
+
+      fetch.mockResolvedValueOnce(new Response(JSON.stringify(authentication)));
+
+      const promise = traktClient.pollWithDeviceCode();
+      vi.advanceTimersByTime(traktClient.poll.interval * 1000);
+      await promise;
+
+      expect(fetch).toHaveBeenCalledTimes(2);
+      expect(traktClient.poll).toBeUndefined();
+      expect(traktClient.polling).toBeUndefined();
+    });
+
+    it('should poll with device code', async () => {
+      expect.assertions(4);
+      vi.useFakeTimers();
+
+      fetch.mockResolvedValueOnce(
+        new Response(JSON.stringify({ error: 'Invalid request' }), {
+          status: 400,
+        }),
+      );
+      fetch.mockResolvedValueOnce(new Response(JSON.stringify(authentication)));
+
+      const promise = traktClient.pollWithDeviceCode(deviceAuthentication);
+      vi.advanceTimersByTime(deviceAuthentication.interval * 1000);
+      vi.advanceTimersByTime(deviceAuthentication.interval * 1000);
+      await promise;
+
+      expect(fetch).toHaveBeenCalledWith(new URL('/oauth/device/token', traktClientSettingsMock.endpoint).toString(), {
+        ...payload,
+        method: HttpMethod.POST,
+        body: JSON.stringify({
+          client_id: traktClientSettingsMock.client_id,
+          client_secret: traktClientSettingsMock.client_secret,
+          code: 'device_code',
+        }),
+      });
+
+      expect(fetch).toHaveBeenCalledTimes(2);
+      expect(traktClient.poll).toBeUndefined();
+      expect(traktClient.polling).toBeUndefined();
+    });
+
+    it('should throw if no poll in memory', async () => {
+      expect.assertions(3);
+
+      let error: Error | undefined;
+      try {
+        await traktClient.pollWithDeviceCode();
+      } catch (err) {
+        error = err;
+      } finally {
+        expect(error).toBeDefined();
+        expect(error).toBeInstanceOf(TraktInvalidParameterError);
+        expect(error?.message).toBe('No device code found.');
+      }
+    });
+
+    it('should cancel polling', async () => {
+      expect.assertions(6);
+      vi.useFakeTimers();
+
+      fetch.mockResolvedValue(
+        new Response(JSON.stringify({ error: 'Invalid request' }), {
+          status: 400,
+        }),
+      );
+
+      let error: Error | undefined;
+      try {
+        const promise = traktClient.pollWithDeviceCode(deviceAuthentication);
+        vi.advanceTimersByTime(deviceAuthentication.interval * 1000);
+        vi.advanceTimersByTime(deviceAuthentication.interval * 1000);
+        vi.advanceTimersByTime(deviceAuthentication.interval * 1000);
+        promise.cancel();
+        await promise;
+      } catch (err) {
+        error = err;
+      } finally {
+        expect(fetch).toHaveBeenCalledTimes(3);
+        expect(error).toBeDefined();
+        expect(error).toBeInstanceOf(TraktPollingCancelledError);
+        expect(error?.message).toBe('Polling cancelled.');
+        expect(traktClient.poll).toBeUndefined();
+        expect(traktClient.polling).toBeUndefined();
+      }
+    });
+
+    it('should exit on error while polling with device code', async () => {
+      expect.assertions(5);
+      vi.useFakeTimers();
+
+      fetch.mockResolvedValueOnce(
+        new Response(JSON.stringify({ error: 'Invalid request' }), {
+          status: 500,
+        }),
+      );
+
+      let error: TraktApiError | undefined;
+      try {
+        const promise = traktClient.pollWithDeviceCode(deviceAuthentication);
+        vi.advanceTimersByTime(deviceAuthentication.interval * 1000);
+        await promise;
+      } catch (err) {
+        error = err as TraktApiError;
+      } finally {
+        expect(error).toBeDefined();
+        expect(error).toBeInstanceOf(TraktApiError);
+        expect((error?.error as Response).status).toBe(500);
+        expect(fetch).toHaveBeenCalledWith(new URL('/oauth/device/token', traktClientSettingsMock.endpoint).toString(), {
+          ...payload,
+          method: HttpMethod.POST,
+          body: JSON.stringify({
+            client_id: traktClientSettingsMock.client_id,
+            client_secret: traktClientSettingsMock.client_secret,
+            code: 'device_code',
+          }),
+        });
+
+        expect(fetch).toHaveBeenCalledTimes(1);
+      }
     });
   });
 });

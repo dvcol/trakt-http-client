@@ -1,13 +1,30 @@
+import type { TraktApiResponse } from '~/models/trakt-client.model';
+
 export const TraktErrorTypes = {
+  TraktApiError: 'TraktApiError',
   TraktValidationError: 'TraktValidationError',
   TraktFilterError: 'TraktFilterError',
   TraktUnauthorizedError: 'TraktUnauthorizedError',
   TraktRateLimitError: 'TraktRateLimitError',
   TraktInvalidParameterError: 'TraktInvalidParameterError',
   TraktPollingExpiredError: 'TraktPollingExpiredError',
+  TraktPollingCancelledError: 'TraktPollingCancelledError',
   TraktExpiredTokenError: 'TraktExpiredTokenError',
   TraktInvalidCsrfError: 'TraktInvalidCsrfError',
 };
+
+export class TraktApiError<T = unknown> extends Error {
+  /**
+   * Inner error that this error wraps.
+   */
+  readonly error?: Error | TraktApiResponse<T>;
+
+  constructor(message: string, error?: Error | TraktApiResponse<T>) {
+    super(message);
+    this.name = TraktErrorTypes.TraktApiError;
+    this.error = error;
+  }
+}
 
 export class TraktValidationError extends Error {
   constructor(message?: string) {
@@ -23,29 +40,17 @@ export class TraktFilterError extends Error {
   }
 }
 
-export class TraktUnauthorizedError extends Error {
-  /**
-   * Inner error that this error wraps.
-   */
-  readonly error?: Error | Response;
-
-  constructor(message?: string, error?: Error | Response) {
-    super(message);
+export class TraktUnauthorizedError<T = unknown> extends TraktApiError<T> {
+  constructor(message?: string, error?: Error | TraktApiResponse<T>) {
+    super(message, error);
     this.name = TraktErrorTypes.TraktUnauthorizedError;
-    this.error = error;
   }
 }
 
-export class TraktRateLimitError extends Error {
-  /**
-   * Inner error that this error wraps.
-   */
-  readonly error?: Error | Response;
-
-  constructor(message?: string, error?: Error | Response) {
-    super(message);
+export class TraktRateLimitError<T = unknown> extends TraktApiError<T> {
+  constructor(message?: string, error?: Error | TraktApiResponse<T>) {
+    super(message, error);
     this.name = TraktErrorTypes.TraktRateLimitError;
-    this.error = error;
   }
 }
 
@@ -57,9 +62,16 @@ export class TraktInvalidParameterError extends Error {
 }
 
 export class TraktPollingExpiredError extends Error {
-  constructor(message?: string) {
+  constructor(message: string = 'Polling expired.') {
     super(message);
     this.name = TraktErrorTypes.TraktPollingExpiredError;
+  }
+}
+
+export class TraktPollingCancelledError extends Error {
+  constructor(message: string = 'Polling cancelled.') {
+    super(message);
+    this.name = TraktErrorTypes.TraktPollingCancelledError;
   }
 }
 
