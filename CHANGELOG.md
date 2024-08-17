@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.7](https://github.com/dvcol/trakt-http-client/compare/v1.4.6...v1.4.7) (2024-08-17)
+
+
+### Bug Fixes
+
+* **polling:** improve polling logic & tests ([f39bf83](https://github.com/dvcol/trakt-http-client/commit/f39bf83d5282898a45c375f7d17babf58cf929d4))
+
 ### [1.4.6](https://github.com/dvcol/trakt-http-client/compare/v1.4.5...v1.4.6) (2024-08-13)
 
 
