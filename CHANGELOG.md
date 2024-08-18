@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.8](https://github.com/dvcol/trakt-http-client/compare/v1.4.7...v1.4.8) (2024-08-18)
+
+
+### Bug Fixes
+
+* **config:** adding missing links ([623fec1](https://github.com/dvcol/trakt-http-client/commit/623fec171ee337e564cb26df33d06af0c753aa37))
+
 ### [1.4.7](https://github.com/dvcol/trakt-http-client/compare/v1.4.6...v1.4.7) (2024-08-17)
 
 
