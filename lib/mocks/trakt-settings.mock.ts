@@ -6,7 +6,7 @@ export const traktClientSettingsMock: TraktClientSettings = {
   client_id: 'client_id',
   client_secret: 'client_secret',
   redirect_uri: 'chrome-extension://redirect_uri/views/options/index.html',
-  endpoint: Config.endpoint.Production,
+  endpoint: Config.Endpoint.Production,
 
   useragent: 'my-user-agent',
 };

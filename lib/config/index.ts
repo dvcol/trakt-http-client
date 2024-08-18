@@ -1,12 +1,16 @@
 export const Config = {
-  endpoint: {
+  Endpoint: {
     /** Production endpoint */
     Production: 'https://api.trakt.tv',
     /** Staging endpoint */
     Staging: 'https://api-staging.trakt.tv',
   },
-  verification: {
-    url: 'https://trakt.tv/activate',
+  Website: {
+    Production: 'https://trakt.tv',
+    Staging: 'https://staging.trakt.tv',
+  },
+  Verification: {
+    Url: 'https://trakt.tv/activate',
     code: (code: string) => `https://trakt.tv/activate/${code}`,
   },
 };
