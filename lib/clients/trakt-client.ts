@@ -262,13 +262,13 @@ export class TraktClient extends BaseTraktClient {
       const pollDevice = async () => {
         try {
           const body = await this._devicePolling(poll, timeout);
-          if (body) return _resolve(body);
+          if (!body) return;
+          _resolve(body);
         } catch (err) {
           _reject(err);
-        } finally {
-          this._clearPolling();
-          this._clearPoll();
         }
+        this._clearPolling();
+        this._clearPoll();
       };
       this.polling = setInterval(pollDevice, poll.interval * 1000);
     }) as CancellablePolling;
