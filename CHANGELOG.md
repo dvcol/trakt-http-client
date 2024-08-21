@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.9](https://github.com/dvcol/trakt-http-client/compare/v1.4.8...v1.4.9) (2024-08-21)
+
+
+### Bug Fixes
+
+* **endpoints:** add missing validators in schemas ([9cb1c97](https://github.com/dvcol/trakt-http-client/commit/9cb1c97bc8cfc1b8e3c7300bd5c57aecefa4056a))
+
 ### [1.4.8](https://github.com/dvcol/trakt-http-client/compare/v1.4.7...v1.4.8) (2024-08-18)
 
 
