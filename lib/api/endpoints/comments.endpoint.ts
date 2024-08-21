@@ -217,6 +217,10 @@ export const comments = {
             path: {
               id: true,
             },
+            query: {
+              comment: true,
+              spoiler: false,
+            },
           },
         },
         body: {
@@ -246,6 +250,9 @@ export const comments = {
         parameters: {
           path: {
             id: true,
+          },
+          query: {
+            extended: false,
           },
         },
       },
@@ -367,6 +374,7 @@ export const comments = {
           },
           query: {
             include_replies: false,
+            extended: false,
           },
         },
       },
@@ -407,6 +415,7 @@ export const comments = {
           },
           query: {
             include_replies: false,
+            extended: false,
           },
         },
       },
@@ -447,6 +456,7 @@ export const comments = {
           },
           query: {
             include_replies: false,
+            extended: false,
           },
         },
       },

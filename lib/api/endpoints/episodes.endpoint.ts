@@ -36,11 +36,21 @@ export const episodes = {
    * @see [get-a-single-episode-for-a-show]{@link https://trakt.docs.apiary.io/#reference/episodes/summary/get-a-single-episode-for-a-show}
    */
   summary: new TraktClientEndpoint<BaseEpisodeParam & TraktApiParamsExtended<typeof TraktApiExtended.Full>, TraktEpisode<'any'>>({
-    opts: {
-      extended: [TraktApiExtended.Full],
-    },
     method: HttpMethod.GET,
     url: '/shows/:id/seasons/:season/episodes/:episode',
+    opts: {
+      extended: [TraktApiExtended.Full],
+      parameters: {
+        path: {
+          id: true,
+          season: true,
+          episode: true,
+        },
+        query: {
+          extended: false,
+        },
+      },
+    },
   }),
   /**
    * Returns all translations for an episode, including language and translated values for title and overview.
@@ -162,6 +172,9 @@ export const episodes = {
           season: true,
           episode: true,
         },
+        query: {
+          extended: false,
+        },
       },
     },
   }),
@@ -218,6 +231,9 @@ export const episodes = {
           id: true,
           season: true,
           episode: true,
+        },
+        query: {
+          extended: false,
         },
       },
     },

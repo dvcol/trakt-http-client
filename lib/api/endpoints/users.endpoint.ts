@@ -80,6 +80,11 @@ export const users = {
     url: '/users/settings',
     opts: {
       auth: true,
+      parameters: {
+        query: {
+          extended: false,
+        },
+      },
     },
   }),
   requests: {
@@ -97,6 +102,11 @@ export const users = {
       opts: {
         auth: true,
         extended: [TraktApiExtended.Full],
+        parameters: {
+          query: {
+            extended: false,
+          },
+        },
       },
     }),
     /**
@@ -113,6 +123,11 @@ export const users = {
       opts: {
         auth: true,
         extended: [TraktApiExtended.Full],
+        parameters: {
+          query: {
+            extended: false,
+          },
+        },
       },
     }),
     /**
@@ -233,6 +248,7 @@ export const users = {
             },
             query: {
               type: false,
+              extended: false,
             },
           },
         },
@@ -315,6 +331,9 @@ export const users = {
           path: {
             id: true,
           },
+          query: {
+            extended: false,
+          },
         },
       },
     }),
@@ -355,6 +374,9 @@ export const users = {
           path: {
             id: true,
             type: false,
+          },
+          query: {
+            extended: false,
           },
         },
       },
@@ -397,6 +419,9 @@ export const users = {
             id: true,
             type: true,
           },
+          query: {
+            extended: false,
+          },
         },
       },
     }),
@@ -437,6 +462,7 @@ export const users = {
           },
           query: {
             include_replies: false,
+            extended: false,
           },
         },
       },
@@ -472,6 +498,15 @@ export const users = {
       auth: 'optional',
       pagination: true,
       extended: [TraktApiExtended.Full],
+      parameters: {
+        path: {
+          id: true,
+          type: true,
+        },
+        query: {
+          extended: false,
+        },
+      },
     },
   }),
   lists: {
@@ -607,6 +642,11 @@ export const users = {
       opts: {
         auth: true,
         cache: false,
+        parameters: {
+          path: {
+            id: true,
+          },
+        },
       },
       body: {
         rank: true,
@@ -904,6 +944,7 @@ export const users = {
             },
             query: {
               type: false,
+              extended: false,
             },
           },
         },
@@ -1183,6 +1224,9 @@ export const users = {
         path: {
           id: true,
         },
+        query: {
+          extended: false,
+        },
       },
     },
   }),
@@ -1210,6 +1254,9 @@ export const users = {
         path: {
           id: true,
         },
+        query: {
+          extended: false,
+        },
       },
     },
   }),
@@ -1236,6 +1283,9 @@ export const users = {
       parameters: {
         path: {
           id: true,
+        },
+        query: {
+          extended: false,
         },
       },
     },
@@ -1286,6 +1336,8 @@ export const users = {
         query: {
           start_at: false,
           end_at: false,
+
+          extended: false,
         },
       },
     },
@@ -1308,7 +1360,8 @@ export const users = {
       type?: 'movies' | 'shows' | 'seasons' | 'episodes' | 'all';
       /** Rating between 1 and 10 */
       rating?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
-    } & TraktApiParamsPagination,
+    } & TraktApiParamsPagination &
+      TraktApiParamsExtended<typeof TraktApiExtended.Full>,
     TraktRating[]
   >({
     method: HttpMethod.GET,
@@ -1322,6 +1375,9 @@ export const users = {
           id: true,
           type: false,
           rating: false,
+        },
+        query: {
+          extended: false,
         },
       },
     },
@@ -1383,6 +1439,9 @@ export const users = {
             id: true,
             type: false,
             sort: false,
+          },
+          query: {
+            extended: false,
           },
         },
       },
@@ -1465,6 +1524,9 @@ export const users = {
           type: false,
           sort: false,
         },
+        query: {
+          extended: false,
+        },
       },
     },
   }),
@@ -1492,6 +1554,9 @@ export const users = {
       parameters: {
         path: {
           id: true,
+        },
+        query: {
+          extended: false,
         },
       },
     },
@@ -1522,6 +1587,8 @@ export const users = {
     } & TraktApiParamsExtended<typeof TraktApiExtended.Full | typeof TraktApiExtended.NoSeasons>,
     TraktWatched[]
   >({
+    method: HttpMethod.GET,
+    url: '/users/:id/watched/:type',
     opts: {
       auth: 'optional',
       extended: [TraktApiExtended.Full, TraktApiExtended.NoSeasons],
@@ -1530,10 +1597,11 @@ export const users = {
           id: true,
           type: false,
         },
+        query: {
+          extended: false,
+        },
       },
     },
-    method: HttpMethod.GET,
-    url: '/users/:id/watched/:type',
   }),
   /**
    * Returns stats about the movies, shows, and episodes a user has watched, collected, and rated.

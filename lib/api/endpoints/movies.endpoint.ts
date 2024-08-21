@@ -42,6 +42,11 @@ const baseOptions: TraktApiTemplateOptions = {
   pagination: true,
   extended: [TraktApiExtended.Full],
   filters: TraktApiMovieFilterValues,
+  parameters: {
+    query: {
+      extended: false,
+    },
+  },
 };
 
 export const movies = {
@@ -208,6 +213,11 @@ export const movies = {
     url: '/movies/boxoffice',
     opts: {
       extended: [TraktApiExtended.Full],
+      parameters: {
+        query: {
+          extended: false,
+        },
+      },
     },
   }),
   /**
@@ -244,6 +254,9 @@ export const movies = {
       parameters: {
         path: {
           start_date: false,
+        },
+        query: {
+          extended: false,
         },
       },
     },
@@ -306,6 +319,9 @@ export const movies = {
       parameters: {
         path: {
           id: true,
+        },
+        query: {
+          extended: false,
         },
       },
     },
@@ -474,6 +490,11 @@ export const movies = {
     url: '/movies/:id/people',
     opts: {
       extended: [TraktApiExtended.Full],
+      parameters: {
+        query: {
+          extended: false,
+        },
+      },
     },
   }),
   /**
@@ -521,6 +542,9 @@ export const movies = {
       parameters: {
         path: {
           id: true,
+        },
+        query: {
+          extended: false,
         },
       },
     },
@@ -590,6 +614,9 @@ export const movies = {
       parameters: {
         path: {
           id: true,
+        },
+        query: {
+          extended: false,
         },
       },
     },

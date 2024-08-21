@@ -41,6 +41,9 @@ export const seasons = {
         path: {
           id: true,
         },
+        query: {
+          extended: false,
+        },
       },
     },
   }),
@@ -82,6 +85,7 @@ export const seasons = {
         },
         query: {
           translations: false,
+          extended: false,
         },
       },
     },
@@ -304,6 +308,9 @@ export const seasons = {
         path: {
           id: true,
           season: true,
+        },
+        query: {
+          extended: false,
         },
       },
     },

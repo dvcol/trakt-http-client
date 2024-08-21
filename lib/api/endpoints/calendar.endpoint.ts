@@ -18,6 +18,9 @@ const opts: TraktApiTemplateOptions = {
       start_date: false,
       days: false,
     },
+    query: {
+      extended: false,
+    },
   },
 };
 

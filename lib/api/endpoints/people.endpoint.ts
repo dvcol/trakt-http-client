@@ -45,6 +45,9 @@ export const people = {
         path: {
           start_date: false,
         },
+        query: {
+          extended: false,
+        },
       },
     },
   }),
@@ -112,6 +115,9 @@ export const people = {
         path: {
           id: true,
         },
+        query: {
+          extended: false,
+        },
       },
     },
   }),
@@ -139,6 +145,9 @@ export const people = {
       parameters: {
         path: {
           id: true,
+        },
+        query: {
+          extended: false,
         },
       },
     },
@@ -169,6 +178,9 @@ export const people = {
       parameters: {
         path: {
           id: true,
+        },
+        query: {
+          extended: false,
         },
       },
     },

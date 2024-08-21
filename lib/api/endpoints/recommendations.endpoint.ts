@@ -42,6 +42,7 @@ export const recommendations = {
           query: {
             ignore_collected: false,
             ignore_watchlisted: false,
+            extended: false,
           },
         },
       },
@@ -104,6 +105,7 @@ export const recommendations = {
           query: {
             ignore_collected: false,
             ignore_watchlisted: false,
+            extended: false,
           },
         },
       },

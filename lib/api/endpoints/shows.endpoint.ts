@@ -43,6 +43,11 @@ const baseOptions: TraktApiTemplateOptions = {
   pagination: true,
   extended: [TraktApiExtended.Full],
   filters: TraktApiShowFilterValues,
+  parameters: {
+    query: {
+      extended: false,
+    },
+  },
 };
 
 export const shows = {
@@ -232,6 +237,9 @@ export const shows = {
         path: {
           start_date: false,
         },
+        query: {
+          extended: false,
+        },
       },
     },
   }),
@@ -294,6 +302,9 @@ export const shows = {
       parameters: {
         path: {
           id: true,
+        },
+        query: {
+          extended: false,
         },
       },
     },
@@ -631,6 +642,14 @@ export const shows = {
     url: '/shows/:id/people',
     opts: {
       extended: [TraktApiExtended.Full, TraktApiExtended.GuestStars],
+      parameters: {
+        path: {
+          id: true,
+        },
+        query: {
+          extended: false,
+        },
+      },
     },
   }),
   /**
@@ -679,6 +698,9 @@ export const shows = {
       parameters: {
         path: {
           id: true,
+        },
+        query: {
+          extended: false,
         },
       },
     },
@@ -749,6 +771,9 @@ export const shows = {
         path: {
           id: true,
         },
+        query: {
+          extended: false,
+        },
       },
     },
   }),
@@ -774,6 +799,9 @@ export const shows = {
         path: {
           id: true,
         },
+        query: {
+          extended: false,
+        },
       },
     },
   }),
@@ -795,6 +823,14 @@ export const shows = {
     url: '/shows/:id/last_episode',
     opts: {
       extended: [TraktApiExtended.Full],
+      parameters: {
+        path: {
+          id: true,
+        },
+        query: {
+          extended: false,
+        },
+      },
     },
   }),
 };

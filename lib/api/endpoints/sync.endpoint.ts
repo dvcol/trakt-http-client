@@ -206,6 +206,14 @@ export const sync = {
       opts: {
         auth: true,
         extended: [TraktApiExtended.Full, TraktApiExtended.Metadata],
+        parameters: {
+          path: {
+            type: true,
+          },
+          query: {
+            extended: false,
+          },
+        },
       },
     }),
     /**
@@ -295,6 +303,9 @@ export const sync = {
         path: {
           type: true,
         },
+        query: {
+          extended: false,
+        },
       },
     },
   }),
@@ -328,6 +339,7 @@ export const sync = {
           query: {
             start_at: false,
             end_at: false,
+            extended: false,
           },
         },
       },
@@ -414,6 +426,7 @@ export const sync = {
           query: {
             type: false,
             rating: false,
+            extended: false,
           },
         },
       },
@@ -510,6 +523,7 @@ export const sync = {
           path: {
             type: false,
             sort: false,
+            extended: false,
           },
         },
       },
@@ -692,6 +706,9 @@ export const sync = {
           path: {
             type: false,
             sort: false,
+          },
+          query: {
+            extended: false,
           },
         },
       },

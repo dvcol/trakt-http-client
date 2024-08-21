@@ -185,6 +185,9 @@ export const lists = {
           id: true,
           type: false,
         },
+        query: {
+          extended: false,
+        },
       },
     },
     transform: params => (Array.isArray(params.type) ? { ...params, type: params.type.join(',') as never } : params),

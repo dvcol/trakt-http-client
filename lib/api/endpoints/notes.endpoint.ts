@@ -167,6 +167,9 @@ export const notes = {
         path: {
           id: true,
         },
+        query: {
+          extended: false,
+        },
       },
     },
   }),
