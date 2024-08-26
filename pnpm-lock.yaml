@@ -12,8 +12,8 @@ importers:
         specifier: ^1.16.0
         version: 1.16.0
       '@dvcol/common-utils':
-        specifier: ^1.14.0
-        version: 1.14.0
+        specifier: ^1.14.1
+        version: 1.14.1
     devDependencies:
       '@commitlint/cli':
         specifier: ^19.3.0
@@ -198,8 +198,8 @@ packages:
     resolution: {integrity: sha512-SY0FwkBArcMZ8LpeO2/UrX8SNW0LXae8UR1nNjrT+8bfcL/bUepNDyasNu2AnsLzQm5faN39qtiYLg7GIWfeDQ==}
     engines: {node: '>=20', pnpm: '>= 8'}
 
-  '@dvcol/common-utils@1.14.0':
-    resolution: {integrity: sha512-qYrb+9W0r1QUAobuH0++ef70sFobOIiZbXru6NJo9I9Ek+KvMcSMzES+7QyZcTjzNNZZBXH3sXlnEobahDEyPA==}
+  '@dvcol/common-utils@1.14.1':
+    resolution: {integrity: sha512-jGvnB1eC0w8wBcaU2UrvBxkAbjZXXUjD/8uHHOpbkLwOzvJ4nmntnvfVilSK7tZXbr9uo+rzOIRwe4P9AJNYOA==}
     engines: {node: '>=20', pnpm: '>= 8'}
 
   '@dvcol/eslint-plugin-presets@1.3.10':
@@ -3331,9 +3331,9 @@ snapshots:
 
   '@dvcol/base-http-client@1.16.0':
     dependencies:
-      '@dvcol/common-utils': 1.14.0
+      '@dvcol/common-utils': 1.14.1
 
-  '@dvcol/common-utils@1.14.0':
+  '@dvcol/common-utils@1.14.1':
     dependencies:
       pretty-bytes: 6.1.1
 
