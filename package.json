@@ -186,8 +186,8 @@
   },
   "peerDependencies": {},
   "dependencies": {
-    "@dvcol/base-http-client": "^1.15.2",
-    "@dvcol/common-utils": "^1.13.1"
+    "@dvcol/base-http-client": "^1.16.0",
+    "@dvcol/common-utils": "^1.14.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.3.0",
