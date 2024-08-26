@@ -206,6 +206,25 @@ describe('base-trakt-client.ts', () => {
       expect(parsed.vip).toBeUndefined();
     });
 
+    it('should parse a response with pagination headers if template is provided', () => {
+      expect.assertions(5);
+
+      const response = new Response();
+      const parsed = parseResponse(response, mockTemplate);
+
+      expect(parsed.pagination).toMatchObject({
+        itemCount: null,
+        pageCount: 1,
+        limit: null,
+        page: 1,
+      });
+
+      expect(parsed.sort).toBeUndefined();
+      expect(parsed.appliedSort).toBeUndefined();
+      expect(parsed.interval).toBeUndefined();
+      expect(parsed.vip).toBeUndefined();
+    });
+
     it('should parse a response with sort headers', () => {
       expect.assertions(5);
 

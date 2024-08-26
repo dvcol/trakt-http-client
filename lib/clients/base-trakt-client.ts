@@ -9,6 +9,7 @@ import type {
   ITraktApi,
   TraktApiParams,
   TraktApiQuery,
+  TraktApiRequest,
   TraktApiResponse,
   TraktApiResponseLimit,
   TraktApiTemplate,
@@ -53,18 +54,19 @@ export const parseAuthResponse = <T extends TraktAuthentication>(response: T, au
 /**
  * Parses a Trakt API response to extract {@link TraktClientPagination} and other information.
  *
- * @private
- *
- * @template T - The type of the response.
+ * @template P - The type of the parameter.
+ * @template R - The type of the response.
  *
  * @param {Response} response - The fetch response.
+ * @param {TraktApiTemplate} template - The template for the API endpoint.
  *
- * @returns {TraktApiResponse<T>} The parsed Trakt API response.
+ * @returns {TraktApiResponse<R>} The parsed Trakt API response.
  */
-export const parseResponse = <T>(response: Response): TraktApiResponse<T> => {
+export const parseResponse = <P, R = unknown>(response: Response, template?: TraktApiTemplate<P>): TraktApiResponse<R> => {
   isResponseOk(response);
 
-  const _response = response as TraktApiResponse<T>;
+  const _response = response as TraktApiResponse<R>;
+  if (template?.opts?.pagination) _response.pagination = { itemCount: null, pageCount: 1, limit: null, page: 1 };
 
   if (
     response.headers.has(TraktApiHeaders.XPaginationItemCount) ||
@@ -72,12 +74,11 @@ export const parseResponse = <T>(response: Response): TraktApiResponse<T> => {
     response.headers.has(TraktApiHeaders.XPaginationLimit) ||
     response.headers.has(TraktApiHeaders.XPaginationPage)
   ) {
-    _response.pagination = {
-      itemCount: Number(response.headers.get(TraktApiHeaders.XPaginationItemCount)),
-      pageCount: Number(response.headers.get(TraktApiHeaders.XPaginationPageCount)),
-      limit: Number(response.headers.get(TraktApiHeaders.XPaginationLimit)),
-      page: Number(response.headers.get(TraktApiHeaders.XPaginationPage)),
-    };
+    if (!_response.pagination) _response.pagination = { itemCount: null, pageCount: 1, limit: null, page: 1 };
+    _response.pagination.itemCount = Number(response.headers.get(TraktApiHeaders.XPaginationItemCount));
+    _response.pagination.pageCount = Number(response.headers.get(TraktApiHeaders.XPaginationPageCount));
+    _response.pagination.limit = Number(response.headers.get(TraktApiHeaders.XPaginationLimit));
+    _response.pagination.page = Number(response.headers.get(TraktApiHeaders.XPaginationPage));
   }
 
   if (response.headers.has(TraktApiHeaders.XSortBy) || response.headers.has(TraktApiHeaders.XSortHow)) {
@@ -241,12 +242,17 @@ export class BaseTraktClient extends BaseClient<TraktApiQuery, TraktApiResponse,
   /**
    * Parses the response from the API before returning from the call.
    * @param response - The response from the API.
-   *
+   * @param request - The request information.
+   * @param template - The template for the API endpoint.
    * @returns {TraktApiResponse} The parsed response.
    * @protected
    */
   // eslint-disable-next-line class-methods-use-this -- implemented from abstract class
-  protected _parseResponse(response: Response): TraktApiResponse {
-    return parseResponse<TraktApiParams>(response);
+  protected _parseResponse<P extends TraktApiParams = TraktApiParams>(
+    response: Response,
+    request?: TraktApiRequest,
+    template?: TraktApiTemplate<P>,
+  ): TraktApiResponse {
+    return parseResponse<P>(response, template);
   }
 }
