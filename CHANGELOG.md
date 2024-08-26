@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.15](https://github.com/dvcol/trakt-http-client/compare/v1.4.14...v1.4.15) (2024-08-26)
+
+
+### Bug Fixes
+
+* **pagination:** always return pagination object for paginated endpoints ([c13affa](https://github.com/dvcol/trakt-http-client/commit/c13affa9be484bfdd383a5671c774982d387ae80))
+
 ### [1.4.14](https://github.com/dvcol/trakt-http-client/compare/v1.4.13...v1.4.14) (2024-08-26)
 
 ### [1.4.13](https://github.com/dvcol/trakt-http-client/compare/v1.4.12...v1.4.13) (2024-08-26)
