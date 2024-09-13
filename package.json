@@ -30,139 +30,130 @@
   "types": "./dist/clients/index.d.ts",
   "exports": {
     ".": {
-      "require": "./dist/clients/index.cjs",
+      "import.types": "./dist/clients/index.d.ts",
+      "require.types": "./dist/clients/index.d.cts",
       "import": "./dist/clients/index.js",
-      "types": "./dist/clients/index.d.ts"
+      "require": "./dist/clients/index.cjs"
     },
     "./config": {
-      "require": "./dist/config/index.cjs",
+      "types": "./dist/config/index.d.ts",
       "import": "./dist/config/index.js",
-      "types": "./dist/config/index.d.ts"
+      "require": "./dist/config/index.cjs"
     },
     "./models": {
+      "types": "./dist/models/index.d.ts",
       "require": "./dist/models/index.cjs",
-      "import": "./dist/models/index.js",
-      "types": "./dist/models/index.d.ts"
-    },
-    "./utils/crypto": {
-      "require": "./dist/utils/crypto.utils.cjs",
-      "import": "./dist/utils/crypto.utils.js",
-      "types": "./dist/utils/crypto.utils.d.ts"
+      "import": "./dist/models/index.js"
     },
     "./utils/regex": {
+      "types": "./dist/utils/regex.utils.d.ts",
       "require": "./dist/utils/regex.utils.cjs",
-      "import": "./dist/utils/regex.utils.js",
-      "types": "./dist/utils/regex.utils.d.ts"
-    },
-    "./utils/typescript": {
-      "require": "./dist/utils/typescript.utils.cjs",
-      "import": "./dist/utils/typescript.utils.js",
-      "types": "./dist/utils/typescript.utils.d.ts"
+      "import": "./dist/utils/regex.utils.js"
     },
     "./api": {
+      "types": "./dist/api/trakt-api.endpoints.d.ts",
       "require": "./dist/api/trakt-api.endpoints.cjs",
-      "import": "./dist/api/trakt-api.endpoints.js",
-      "types": "./dist/api/trakt-api.endpoints.d.ts"
+      "import": "./dist/api/trakt-api.endpoints.js"
     },
     "./api/minimal": {
+      "types": "./dist/api/trakt-api-minimal.endpoints.d.ts",
       "require": "./dist/api/trakt-api-minimal.endpoints.cjs",
-      "import": "./dist/api/trakt-api-minimal.endpoints.js",
-      "types": "./dist/api/trakt-api-minimal.endpoints.d.ts"
+      "import": "./dist/api/trakt-api-minimal.endpoints.js"
     },
     "./api/filters": {
+      "types": "./dist/api/trakt-api.filters.d.ts",
       "require": "./dist/api/trakt-api.filters.cjs",
-      "import": "./dist/api/trakt-api.filters.js",
-      "types": "./dist/api/trakt-api.filters.d.ts"
+      "import": "./dist/api/trakt-api.filters.js"
     },
     "./api/transforms": {
+      "types": "./dist/api/trakt-api.transforms.d.ts",
       "require": "./dist/api/trakt-api.transforms.cjs",
-      "import": "./dist/api/trakt-api.transforms.js",
-      "types": "./dist/api/trakt-api.transforms.d.ts"
+      "import": "./dist/api/trakt-api.transforms.js"
     },
     "./api/validators": {
+      "types": "./dist/api/trakt-api.validators.d.ts",
       "require": "./dist/api/trakt-api.validators.cjs",
-      "import": "./dist/api/trakt-api.validators.js",
-      "types": "./dist/api/trakt-api.validators.d.ts"
+      "import": "./dist/api/trakt-api.validators.js"
     },
     "./api/authentication": {
+      "types": "./dist/api/endpoints/authentication.endpoint.d.ts",
       "require": "./dist/api/endpoints/authentication.endpoint.cjs",
-      "import": "./dist/api/endpoints/authentication.endpoint.js",
-      "types": "./dist/api/endpoints/authentication.endpoint.d.ts"
+      "import": "./dist/api/endpoints/authentication.endpoint.js"
     },
     "./api/calendar": {
+      "types": "./dist/api/endpoints/calendar.endpoint.d.ts",
       "require": "./dist/api/endpoints/calendar.endpoint.cjs",
-      "import": "./dist/api/endpoints/calendar.endpoint.js",
-      "types": "./dist/api/endpoints/calendar.endpoint.d.ts"
+      "import": "./dist/api/endpoints/calendar.endpoint.js"
     },
     "./api/checkin": {
+      "types": "./dist/api/endpoints/checkin.endpoint.d.ts",
       "require": "./dist/api/endpoints/checkin.endpoint.cjs",
-      "import": "./dist/api/endpoints/checkin.endpoint.js",
-      "types": "./dist/api/endpoints/checkin.endpoint.d.ts"
+      "import": "./dist/api/endpoints/checkin.endpoint.js"
     },
     "./api/comments": {
+      "types": "./dist/api/endpoints/comments.endpoint.d.ts",
       "require": "./dist/api/endpoints/comments.endpoint.cjs",
-      "import": "./dist/api/endpoints/comments.endpoint.js",
-      "types": "./dist/api/endpoints/comments.endpoint.d.ts"
+      "import": "./dist/api/endpoints/comments.endpoint.js"
     },
     "./api/episodes": {
+      "types": "./dist/api/endpoints/episodes.endpoint.d.ts",
       "require": "./dist/api/endpoints/episodes.endpoint.cjs",
-      "import": "./dist/api/endpoints/episodes.endpoint.js",
-      "types": "./dist/api/endpoints/episodes.endpoint.d.ts"
+      "import": "./dist/api/endpoints/episodes.endpoint.js"
     },
     "./api/lists": {
+      "types": "./dist/api/endpoints/lists.endpoint.d.ts",
       "require": "./dist/api/endpoints/lists.endpoint.cjs",
-      "import": "./dist/api/endpoints/lists.endpoint.js",
-      "types": "./dist/api/endpoints/lists.endpoint.d.ts"
+      "import": "./dist/api/endpoints/lists.endpoint.js"
     },
     "./api/movies": {
+      "types": "./dist/api/endpoints/movies.endpoint.d.ts",
       "require": "./dist/api/endpoints/movies.endpoint.cjs",
-      "import": "./dist/api/endpoints/movies.endpoint.js",
-      "types": "./dist/api/endpoints/movies.endpoint.d.ts"
+      "import": "./dist/api/endpoints/movies.endpoint.js"
     },
     "./api/notes": {
+      "types": "./dist/api/endpoints/notes.endpoint.d.ts",
       "require": "./dist/api/endpoints/notes.endpoint.cjs",
-      "import": "./dist/api/endpoints/notes.endpoint.js",
-      "types": "./dist/api/endpoints/notes.endpoint.d.ts"
+      "import": "./dist/api/endpoints/notes.endpoint.js"
     },
     "./api/people": {
+      "types": "./dist/api/endpoints/people.endpoint.d.ts",
       "require": "./dist/api/endpoints/people.endpoint.cjs",
-      "import": "./dist/api/endpoints/people.endpoint.js",
-      "types": "./dist/api/endpoints/people.endpoint.d.ts"
+      "import": "./dist/api/endpoints/people.endpoint.js"
     },
     "./api/recommendations": {
+      "types": "./dist/api/endpoints/recommendations.endpoint.d.ts",
       "require": "./dist/api/endpoints/recommendations.endpoint.cjs",
-      "import": "./dist/api/endpoints/recommendations.endpoint.js",
-      "types": "./dist/api/endpoints/recommendations.endpoint.d.ts"
+      "import": "./dist/api/endpoints/recommendations.endpoint.js"
     },
     "./api/scrobble": {
+      "types": "./dist/api/endpoints/scrobble.endpoint.d.ts",
       "require": "./dist/api/endpoints/scrobble.endpoint.cjs",
-      "import": "./dist/api/endpoints/scrobble.endpoint.js",
-      "types": "./dist/api/endpoints/scrobble.endpoint.d.ts"
+      "import": "./dist/api/endpoints/scrobble.endpoint.js"
     },
     "./api/search": {
+      "types": "./dist/api/endpoints/search.endpoint.d.ts",
       "require": "./dist/api/endpoints/search.endpoint.cjs",
-      "import": "./dist/api/endpoints/search.endpoint.js",
-      "types": "./dist/api/endpoints/search.endpoint.d.ts"
+      "import": "./dist/api/endpoints/search.endpoint.js"
     },
     "./api/seasons": {
+      "types": "./dist/api/endpoints/seasons.endpoint.d.ts",
       "require": "./dist/api/endpoints/seasons.endpoint.cjs",
-      "import": "./dist/api/endpoints/seasons.endpoint.js",
-      "types": "./dist/api/endpoints/seasons.endpoint.d.ts"
+      "import": "./dist/api/endpoints/seasons.endpoint.js"
     },
     "./api/shows": {
+      "types": "./dist/api/endpoints/shows.endpoint.d.ts",
       "require": "./dist/api/endpoints/shows.endpoint.cjs",
-      "import": "./dist/api/endpoints/shows.endpoint.js",
-      "types": "./dist/api/endpoints/shows.endpoint.d.ts"
+      "import": "./dist/api/endpoints/shows.endpoint.js"
     },
     "./api/sync": {
+      "types": "./dist/api/endpoints/sync.endpoint.d.ts",
       "require": "./dist/api/endpoints/sync.endpoint.cjs",
-      "import": "./dist/api/endpoints/sync.endpoint.js",
-      "types": "./dist/api/endpoints/sync.endpoint.d.ts"
+      "import": "./dist/api/endpoints/sync.endpoint.js"
     },
     "./api/users": {
+      "types": "./dist/api/endpoints/users.endpoint.d.ts",
       "require": "./dist/api/endpoints/users.endpoint.cjs",
-      "import": "./dist/api/endpoints/users.endpoint.js",
-      "types": "./dist/api/endpoints/users.endpoint.d.ts"
+      "import": "./dist/api/endpoints/users.endpoint.js"
     }
   },
   "files": [
@@ -172,10 +163,11 @@
   ],
   "scripts": {
     "prepare": "husky",
-    "build": "tsup",
+    "build": "tsup && publint",
     "watch": "npm run build -- --watch lib",
     "lint": "eslint lib",
     "lint:fix": "eslint lib --fix",
+    "lint:package": "publint",
     "test:unit": "vitest --run --coverage",
     "test:watch": "vitest",
     "release": "standard-version",
@@ -211,6 +203,7 @@
     "jsonc-eslint-parser": "^2.4.0",
     "lint-staged": "^15.2.7",
     "prettier": "^3.2.5",
+    "publint": "^0.2.10",
     "standard-version": "^9.5.0",
     "tsup": "^8.0.2",
     "typescript": "^5.4.5",
