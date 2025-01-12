@@ -505,6 +505,7 @@ export const movies = {
     method: HttpMethod.GET,
     url: '/movies/:id/ratings',
     opts: {
+      extended: [TraktApiExtended.All],
       parameters: {
         path: {
           id: true,

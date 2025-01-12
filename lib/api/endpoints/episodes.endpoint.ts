@@ -188,6 +188,7 @@ export const episodes = {
     method: HttpMethod.GET,
     url: '/shows/:id/seasons/:season/episodes/:episode/ratings',
     opts: {
+      extended: [TraktApiExtended.All],
       parameters: {
         path: {
           id: true,

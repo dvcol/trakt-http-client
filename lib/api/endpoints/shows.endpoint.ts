@@ -662,6 +662,7 @@ export const shows = {
     method: HttpMethod.GET,
     url: '/shows/:id/ratings',
     opts: {
+      extended: [TraktApiExtended.All],
       parameters: {
         path: {
           id: true,

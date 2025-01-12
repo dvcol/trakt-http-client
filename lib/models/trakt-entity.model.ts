@@ -60,10 +60,10 @@ export type TraktGenericRating = {
 
 export type TraktExtendedRatings = {
   trakt: TraktGenericRating;
-  tmdb: TraktGenericRating;
-  imdb: TraktGenericRating;
-  metascore: TraktGenericRating;
-  rotten_tomatoes: TraktGenericRating;
+  tmdb?: TraktGenericRating;
+  imdb?: TraktGenericRating;
+  metascore?: TraktGenericRating;
+  rotten_tomatoes?: TraktGenericRating;
   [key: string]: TraktGenericRating;
 };
 
@@ -72,6 +72,11 @@ export type TraktRatings<T extends EntityTypes = Any> = T extends Short
   : T extends Extended
     ? TraktExtendedRatings
     : TraktGenericRating | TraktExtendedRatings;
+
+export const toExtendedRatings = (ratings: TraktRatings): TraktExtendedRatings => {
+  if ('trakt' in ratings) return ratings;
+  return { trakt: ratings };
+};
 
 export type TraktStudio = {
   name: string;
