@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/dvcol/trakt-http-client/compare/v1.4.16...v1.5.0) (2025-01-12)
+
+
+### Features
+
+* **ratings:** adds extended ratings support ([cc8491c](https://github.com/dvcol/trakt-http-client/commit/cc8491c2604bfb9c046990af2c84b70808f6a605))
+
+
+### Bug Fixes
+
+* **build:** add publint and fix exports ([fda613e](https://github.com/dvcol/trakt-http-client/commit/fda613edc1330c86a0e26d6862d67103487e934d))
+
 ### [1.4.16](https://github.com/dvcol/trakt-http-client/compare/v1.4.15...v1.4.16) (2024-08-26)
 
 ### [1.4.15](https://github.com/dvcol/trakt-http-client/compare/v1.4.14...v1.4.15) (2024-08-26)
