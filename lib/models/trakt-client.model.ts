@@ -64,6 +64,7 @@ export const TraktApiExtended = {
   NoSeasons: 'noseasons',
   Vip: 'vip',
   Comments: 'comments',
+  All: 'all',
 } as const;
 
 /**

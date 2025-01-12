@@ -1,6 +1,9 @@
 import { HttpMethod } from '@dvcol/common-utils/http';
 
 import type { TraktComment } from '~/models/trakt-comment.model';
+
+import type { StartDateParam, TraktAlias, TraktRatings, TraktStudio, TraktTranslation } from '~/models/trakt-entity.model';
+
 import type { TraktEpisode } from '~/models/trakt-episode.model';
 import type { TraktList } from '~/models/trakt-list.model';
 import type { TraktCollectionProgress, TraktProgressReset, TraktWatchedProgress } from '~/models/trakt-progress.model';
@@ -27,15 +30,7 @@ import {
   type TraktApiTemplateOptions,
   TraktClientEndpoint,
 } from '~/models/trakt-client.model';
-import {
-  type StartDateParam,
-  type TraktAlias,
-  type TraktGenericRating,
-  type TraktStudio,
-  type TraktTranslation,
-  transformStartDate,
-  validateStartDate,
-} from '~/models/trakt-entity.model';
+import { transformStartDate, validateStartDate } from '~/models/trakt-entity.model';
 
 type BaseShowParams = TraktApiParamsPagination & TraktApiParamsExtended<typeof TraktApiExtended.Full> & TraktApiParamsFilter<TraktApiShowFilters>;
 
@@ -661,8 +656,8 @@ export const shows = {
     {
       /** Trakt ID, Trakt slug, or IMDB ID */
       id: string;
-    },
-    TraktGenericRating
+    } & TraktApiParamsExtended<typeof TraktApiExtended.All>,
+    TraktRatings
   >({
     method: HttpMethod.GET,
     url: '/shows/:id/ratings',

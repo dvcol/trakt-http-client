@@ -1,7 +1,8 @@
 import { HttpMethod } from '@dvcol/common-utils/http';
 
 import type { TraktComment } from '~/models/trakt-comment.model';
-import type { TraktGenericRating, TraktTranslation } from '~/models/trakt-entity.model';
+
+import type { TraktRatings, TraktTranslation } from '~/models/trakt-entity.model';
 import type { TraktEpisode } from '~/models/trakt-episode.model';
 import type { TraktList } from '~/models/trakt-list.model';
 import type { TraktSeason, TraktSeasonCast, TraktSeasonStats } from '~/models/trakt-season.model';
@@ -245,8 +246,8 @@ export const seasons = {
       id: string;
       /** season number */
       season: number;
-    },
-    TraktGenericRating
+    } & TraktApiParamsExtended<typeof TraktApiExtended.All>,
+    TraktRatings
   >({
     method: HttpMethod.GET,
     url: '/shows/:id/seasons/:season/ratings',

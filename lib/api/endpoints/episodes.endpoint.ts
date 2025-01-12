@@ -1,7 +1,8 @@
 import { HttpMethod } from '@dvcol/common-utils/http';
 
 import type { TraktComment } from '~/models/trakt-comment.model';
-import type { TraktGenericRating, TraktTranslation } from '~/models/trakt-entity.model';
+
+import type { TraktRatings, TraktTranslation } from '~/models/trakt-entity.model';
 import type { TraktEpisode, TraktEpisodeCast, TraktEpisodeStats } from '~/models/trakt-episode.model';
 
 import type { TraktList } from '~/models/trakt-list.model';
@@ -183,7 +184,7 @@ export const episodes = {
    *
    * @see [get-episode-ratings]{@link https://trakt.docs.apiary.io/#reference/episodes/ratings/get-episode-ratings}
    */
-  ratings: new TraktClientEndpoint<BaseEpisodeParam, TraktGenericRating>({
+  ratings: new TraktClientEndpoint<BaseEpisodeParam & TraktApiParamsExtended<typeof TraktApiExtended.All>, TraktRatings>({
     method: HttpMethod.GET,
     url: '/shows/:id/seasons/:season/episodes/:episode/ratings',
     opts: {

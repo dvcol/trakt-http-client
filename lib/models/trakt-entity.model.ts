@@ -55,8 +55,23 @@ export type TraktTranslation = {
 export type TraktGenericRating = {
   rating: number;
   votes: number;
-  distribution: Record<1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10, number>;
+  distribution?: Record<1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10, number>;
 };
+
+export type TraktExtendedRatings = {
+  trakt: TraktGenericRating;
+  tmdb: TraktGenericRating;
+  imdb: TraktGenericRating;
+  metascore: TraktGenericRating;
+  rotten_tomatoes: TraktGenericRating;
+  [key: string]: TraktGenericRating;
+};
+
+export type TraktRatings<T extends EntityTypes = Any> = T extends Short
+  ? TraktGenericRating
+  : T extends Extended
+    ? TraktExtendedRatings
+    : TraktGenericRating | TraktExtendedRatings;
 
 export type TraktStudio = {
   name: string;

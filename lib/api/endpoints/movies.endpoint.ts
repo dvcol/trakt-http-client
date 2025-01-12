@@ -1,6 +1,8 @@
 import { HttpMethod } from '@dvcol/common-utils/http';
 
 import type { TraktComment } from '~/models/trakt-comment.model';
+import type { StartDateParam, TraktAlias, TraktRatings, TraktStudio, TraktTranslation } from '~/models/trakt-entity.model';
+
 import type { TraktList } from '~/models/trakt-list.model';
 import type {
   TraktMovie,
@@ -14,7 +16,6 @@ import type {
   TraktMovieTrending,
   TraktMovieUpdate,
 } from '~/models/trakt-movie.model';
-
 import type { TraktUser } from '~/models/trakt-user.model';
 
 import { type TraktApiMovieFilters, TraktApiMovieFilterValues } from '~/api/trakt-api.filters';
@@ -26,15 +27,7 @@ import {
   type TraktApiTemplateOptions,
   TraktClientEndpoint,
 } from '~/models/trakt-client.model';
-import {
-  type StartDateParam,
-  type TraktAlias,
-  type TraktGenericRating,
-  type TraktStudio,
-  type TraktTranslation,
-  transformStartDate,
-  validateStartDate,
-} from '~/models/trakt-entity.model';
+import { transformStartDate, validateStartDate } from '~/models/trakt-entity.model';
 
 type BaseMovieParams = TraktApiParamsPagination & TraktApiParamsExtended<typeof TraktApiExtended.Full> & TraktApiParamsFilter<TraktApiMovieFilters>;
 
@@ -506,8 +499,8 @@ export const movies = {
     {
       /** Trakt ID, Trakt slug, or IMDB ID */
       id: string;
-    },
-    TraktGenericRating
+    } & TraktApiParamsExtended<typeof TraktApiExtended.All>,
+    TraktRatings
   >({
     method: HttpMethod.GET,
     url: '/movies/:id/ratings',
