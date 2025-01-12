@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.5.1](https://github.com/dvcol/trakt-http-client/compare/v1.5.0...v1.5.1) (2025-01-12)
+
+
+### Bug Fixes
+
+* **types:** widen trakt Id param to include numbers ([3eed5d9](https://github.com/dvcol/trakt-http-client/commit/3eed5d933dd0a6e8132c4967ab88acb804c609d5))
+
 ## [1.5.0](https://github.com/dvcol/trakt-http-client/compare/v1.4.16...v1.5.0) (2025-01-12)
 
 
