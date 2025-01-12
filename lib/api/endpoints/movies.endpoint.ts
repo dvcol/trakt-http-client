@@ -327,7 +327,7 @@ export const movies = {
   aliases: new TraktClientEndpoint<
     {
       /** Trakt ID, Trakt slug, or IMDB ID */
-      id: string;
+      id: string | number;
     },
     TraktAlias[]
   >({
@@ -351,7 +351,7 @@ export const movies = {
   releases: new TraktClientEndpoint<
     {
       /** Trakt ID, Trakt slug, or IMDB ID */
-      id: string;
+      id: string | number;
       /** 2 character country code (ISO 3166-1 alpha-2) */
       country?: string;
     },
@@ -376,7 +376,7 @@ export const movies = {
   translations: new TraktClientEndpoint<
     {
       /** Trakt ID, Trakt slug, or IMDB ID */
-      id: string;
+      id: string | number;
       /** 2 character language code (ISO 639-1) */
       language?: string;
     },
@@ -410,7 +410,7 @@ export const movies = {
   comments: new TraktClientEndpoint<
     {
       /** Trakt ID, Trakt slug, or IMDB ID */
-      id: string;
+      id: string | number;
       /** Comment sorting. */
       sort?: 'newest' | 'oldest' | 'likes' | 'replies' | 'highest' | 'lowest' | 'plays';
     } & TraktApiParamsPagination,
@@ -441,7 +441,7 @@ export const movies = {
   lists: new TraktClientEndpoint<
     {
       /** Trakt ID, Trakt slug, or IMDB ID */
-      id: string;
+      id: string | number;
       /** Filter for a specific list type */
       type?: 'all' | 'personal' | 'official' | 'watchlists' | 'favorites';
       /** Lists sorting. */
@@ -475,7 +475,7 @@ export const movies = {
   people: new TraktClientEndpoint<
     {
       /** Trakt ID, Trakt slug, or IMDB ID */
-      id: string;
+      id: string | number;
     } & TraktApiParamsExtended<typeof TraktApiExtended.Full>,
     TraktMovieCast
   >({
@@ -498,7 +498,7 @@ export const movies = {
   ratings: new TraktClientEndpoint<
     {
       /** Trakt ID, Trakt slug, or IMDB ID */
-      id: string;
+      id: string | number;
     } & TraktApiParamsExtended<typeof TraktApiExtended.All>,
     TraktRatings
   >({
@@ -523,7 +523,7 @@ export const movies = {
   related: new TraktClientEndpoint<
     {
       /** Trakt ID, Trakt slug, or IMDB ID */
-      id: string;
+      id: string | number;
     } & TraktApiParamsExtended<typeof TraktApiExtended.Full> &
       TraktApiParamsPagination,
     TraktMovie<'any'>[]
@@ -550,7 +550,7 @@ export const movies = {
   stats: new TraktClientEndpoint<
     {
       /** Trakt ID, Trakt slug, or IMDB ID */
-      id: string;
+      id: string | number;
     },
     TraktMovieStats
   >({
@@ -572,7 +572,7 @@ export const movies = {
   studios: new TraktClientEndpoint<
     {
       /** Trakt ID, Trakt slug, or IMDB ID */
-      id: string;
+      id: string | number;
     },
     TraktStudio[]
   >({
@@ -596,7 +596,7 @@ export const movies = {
   watching: new TraktClientEndpoint<
     {
       /** Trakt ID, Trakt slug, or IMDB ID */
-      id: string;
+      id: string | number;
     } & TraktApiParamsExtended<typeof TraktApiExtended.Full>,
     TraktUser<'any'>[]
   >({

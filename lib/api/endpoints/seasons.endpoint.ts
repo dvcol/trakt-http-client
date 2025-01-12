@@ -99,7 +99,7 @@ export const seasons = {
   translations: new TraktClientEndpoint<
     {
       /** Trakt ID, Trakt slug, or IMDB ID */
-      id: string;
+      id: string | number;
       /** season number */
       season: number;
       /** 2 character language code (ISO 639-1) */
@@ -136,7 +136,7 @@ export const seasons = {
   comments: new TraktClientEndpoint<
     {
       /** Trakt ID, Trakt slug, or IMDB ID */
-      id: string;
+      id: string | number;
       /** season number */
       season: number;
       /** Comment sorting. */
@@ -170,7 +170,7 @@ export const seasons = {
   lists: new TraktClientEndpoint<
     {
       /** Trakt ID, Trakt slug, or IMDB ID */
-      id: string;
+      id: string | number;
       /** season number */
       season: number;
       /** Filter for a specific list type */
@@ -217,7 +217,7 @@ export const seasons = {
   people: new TraktClientEndpoint<
     {
       /** Trakt ID, Trakt slug, or IMDB ID */
-      id: string;
+      id: string | number;
       /** season number */
       season: number;
     } & TraktApiParamsExtended<typeof TraktApiExtended.GuestStars>,
@@ -243,7 +243,7 @@ export const seasons = {
   ratings: new TraktClientEndpoint<
     {
       /** Trakt ID, Trakt slug, or IMDB ID */
-      id: string;
+      id: string | number;
       /** season number */
       season: number;
     } & TraktApiParamsExtended<typeof TraktApiExtended.All>,
@@ -268,7 +268,7 @@ export const seasons = {
   stats: new TraktClientEndpoint<
     {
       /** Trakt ID, Trakt slug, or IMDB ID */
-      id: string;
+      id: string | number;
       /** season number */
       season: number;
     },
@@ -295,7 +295,7 @@ export const seasons = {
   watching: new TraktClientEndpoint<
     {
       /** Trakt ID, Trakt slug, or IMDB ID */
-      id: string;
+      id: string | number;
       /** season number */
       season: number;
     } & TraktApiParamsExtended<typeof TraktApiExtended.Full>,

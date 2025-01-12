@@ -134,7 +134,7 @@ export const people = {
   movies: new TraktClientEndpoint<
     {
       /** Trakt ID, Trakt slug, or IMDB ID */
-      id: string;
+      id: string | number;
     } & TraktApiParamsExtended<typeof TraktApiExtended.Full>,
     TraktMovieCast
   >({
@@ -167,7 +167,7 @@ export const people = {
   shows: new TraktClientEndpoint<
     {
       /** Trakt ID, Trakt slug, or IMDB ID */
-      id: string;
+      id: string | number;
     } & TraktApiParamsExtended<typeof TraktApiExtended.Full>,
     TraktShowCast
   >({
@@ -196,7 +196,7 @@ export const people = {
   lists: new TraktClientEndpoint<
     {
       /** Trakt ID, Trakt slug, or IMDB ID */
-      id: string;
+      id: string | number;
       /** Filter for a specific list type */
       type?: 'all' | 'personal' | 'official';
       /** How to sort */

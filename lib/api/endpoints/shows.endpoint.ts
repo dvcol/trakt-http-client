@@ -312,7 +312,7 @@ export const shows = {
   aliases: new TraktClientEndpoint<
     {
       /** Trakt ID, Trakt slug, or IMDB ID */
-      id: string;
+      id: string | number;
     },
     TraktAlias[]
   >({
@@ -334,7 +334,7 @@ export const shows = {
   certifications: new TraktClientEndpoint<
     {
       /** Trakt ID, Trakt slug, or IMDB ID */
-      id: string;
+      id: string | number;
     },
     TraktShowCertification[]
   >({
@@ -356,7 +356,7 @@ export const shows = {
   translations: new TraktClientEndpoint<
     {
       /** Trakt ID, Trakt slug, or IMDB ID */
-      id: string;
+      id: string | number;
       /** 2 character language code. (ISO 639-1) */
       language?: string;
     },
@@ -390,7 +390,7 @@ export const shows = {
   comments: new TraktClientEndpoint<
     {
       /** Trakt ID, Trakt slug, or IMDB ID */
-      id: string;
+      id: string | number;
       /** Comment sorting. */
       sort?: 'newest' | 'oldest' | 'likes' | 'replies' | 'highest' | 'lowest' | 'plays' | 'watched';
     } & TraktApiParamsPagination,
@@ -421,7 +421,7 @@ export const shows = {
   lists: new TraktClientEndpoint<
     {
       /** Trakt ID, Trakt slug, or IMDB ID */
-      id: string;
+      id: string | number;
       /** Filter for a specific list type */
       type?: 'all' | 'personal' | 'official' | 'watchlists' | 'favorites';
       /** Lists sorting. */
@@ -559,7 +559,7 @@ export const shows = {
     reset: new TraktClientEndpoint<
       {
         /** Trakt ID, Trakt slug, or IMDB ID */
-        id: string;
+        id: string | number;
       },
       TraktProgressReset,
       false
@@ -588,7 +588,7 @@ export const shows = {
     undoReset: new TraktClientEndpoint<
       {
         /** Trakt ID, Trakt slug, or IMDB ID */
-        id: string;
+        id: string | number;
       },
       unknown,
       false
@@ -629,7 +629,7 @@ export const shows = {
   people: new TraktClientEndpoint<
     {
       /** Trakt ID, Trakt slug, or IMDB ID */
-      id: string;
+      id: string | number;
     } & TraktApiParamsExtended<typeof TraktApiExtended.GuestStars | typeof TraktApiExtended.Full>,
     TraktShowCast
   >({
@@ -655,7 +655,7 @@ export const shows = {
   ratings: new TraktClientEndpoint<
     {
       /** Trakt ID, Trakt slug, or IMDB ID */
-      id: string;
+      id: string | number;
     } & TraktApiParamsExtended<typeof TraktApiExtended.All>,
     TraktRatings
   >({
@@ -680,7 +680,7 @@ export const shows = {
   related: new TraktClientEndpoint<
     {
       /** Trakt ID, Trakt slug, or IMDB ID */
-      id: string;
+      id: string | number;
     } & TraktApiParamsExtended<typeof TraktApiExtended.Full> &
       TraktApiParamsPagination,
     TraktShow<'any'>[]
@@ -708,7 +708,7 @@ export const shows = {
   stats: new TraktClientEndpoint<
     {
       /** Trakt ID, Trakt slug, or IMDB ID */
-      id: string;
+      id: string | number;
     },
     TraktShowStats
   >({
@@ -730,7 +730,7 @@ export const shows = {
   studios: new TraktClientEndpoint<
     {
       /** Trakt ID, Trakt slug, or IMDB ID */
-      id: string;
+      id: string | number;
     },
     TraktStudio[]
   >({
@@ -754,7 +754,7 @@ export const shows = {
   watching: new TraktClientEndpoint<
     {
       /** Trakt ID, Trakt slug, or IMDB ID */
-      id: string;
+      id: string | number;
     } & TraktApiParamsExtended<typeof TraktApiExtended.Full>,
     TraktUser<'any'>[]
   >({
@@ -782,7 +782,7 @@ export const shows = {
   nextEpisode: new TraktClientEndpoint<
     {
       /** Trakt ID, Trakt slug, or IMDB ID */
-      id: string;
+      id: string | number;
     } & TraktApiParamsExtended<typeof TraktApiExtended.Full>,
     TraktEpisode<'any'>
   >({
@@ -810,7 +810,7 @@ export const shows = {
   lastEpisode: new TraktClientEndpoint<
     {
       /** Trakt ID, Trakt slug, or IMDB ID */
-      id: string;
+      id: string | number;
     } & TraktApiParamsExtended<typeof TraktApiExtended.Full>,
     TraktEpisode<'any'>
   >({
