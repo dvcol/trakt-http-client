@@ -1,6 +1,7 @@
 import type { Any, EntityTypes, Extended, Short } from '~/models/trakt-entity.model';
 import type { TraktEpisode } from '~/models/trakt-episode.model';
 import type { TraktApiIds } from '~/models/trakt-id.model';
+import type { TraktImage } from '~/models/trakt-image.model';
 import type { TraktCast } from '~/models/trakt-people.model';
 
 export type TraktSeasonShort = {
@@ -20,6 +21,7 @@ export type TraktSeasonExtended = TraktSeasonShort & {
   /** Timestamp in ISO 8601 GMT format (YYYY-MM-DD'T'hh:mm:ss.sssZ) */
   updated_at: string;
   network: string;
+  images: TraktImage;
 };
 
 export type TraktSeasonEpisodes<T extends EntityTypes = Short> = TraktSeasonShort & {

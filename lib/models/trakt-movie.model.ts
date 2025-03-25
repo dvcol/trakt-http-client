@@ -1,5 +1,6 @@
 import type { Any, EntityTypes, Extended, Short } from '~/models/trakt-entity.model';
 import type { TraktApiIds } from '~/models/trakt-id.model';
+import type { TraktImage } from '~/models/trakt-image.model';
 import type { TraktCast } from '~/models/trakt-people.model';
 
 export type TraktMovieShort = {
@@ -31,6 +32,7 @@ export type TraktMovieExtended = TraktMovieShort & {
   available_translations: string[];
   genres: string[];
   certification: string;
+  images: TraktImage;
 };
 
 export type TraktMovie<T extends EntityTypes = Short> = T extends Extended

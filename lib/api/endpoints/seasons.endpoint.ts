@@ -23,7 +23,7 @@ export const seasons = {
    *
    * This returns a lot of data, so please only use this extended parameter if you actually need it!
    *
-   * @extended true - {@link TraktApiExtended.Episodes}
+   * @extended true - {@link TraktApiExtended.Episodes} | {@link TraktApiExtended.Full} | {@link TraktApiExtended.Images}
    *
    * @see [get-all-seasons-for-a-show]{@link https://trakt.docs.apiary.io/#reference/seasons/summary/get-all-seasons-for-a-show}
    */
@@ -31,13 +31,13 @@ export const seasons = {
     {
       /** Trakt ID, Trakt slug, or IMDB ID */
       id: string | number;
-    } & TraktApiParamsExtended<typeof TraktApiExtended.Episodes | typeof TraktApiExtended.Full>,
+    } & TraktApiParamsExtended<typeof TraktApiExtended.Episodes | typeof TraktApiExtended.Full | typeof TraktApiExtended.Images>,
     TraktSeason<'any'>[]
   >({
     method: HttpMethod.GET,
     url: '/shows/:id/seasons',
     opts: {
-      extended: [TraktApiExtended.Full, TraktApiExtended.Episodes],
+      extended: [TraktApiExtended.Full, TraktApiExtended.Episodes, TraktApiExtended.Images],
       parameters: {
         path: {
           id: true,
@@ -60,7 +60,7 @@ export const seasons = {
    *
    * This returns a lot of data, so please only use this extended parameter if you actually need it!
    *
-   * @extended true - {@link TraktApiExtended.Full}
+   * @extended true - {@link TraktApiExtended.Full} | {@link TraktApiExtended.Images}
    *
    * @see [get-single-season-for-a-show]{@link https://trakt.docs.apiary.io/#reference/seasons/season/get-single-season-for-a-show}
    */
@@ -72,13 +72,13 @@ export const seasons = {
       season: number;
       /** include episode translations - 2 character language code (ISO 639-1) */
       translations?: string;
-    } & TraktApiParamsExtended<typeof TraktApiExtended.Full>,
+    } & TraktApiParamsExtended<typeof TraktApiExtended.Full | typeof TraktApiExtended.Images>,
     TraktEpisode<'any'>[]
   >({
     method: HttpMethod.GET,
     url: '/shows/:id/seasons/:season?translations=',
     opts: {
-      extended: [TraktApiExtended.Full],
+      extended: [TraktApiExtended.Full, TraktApiExtended.Images],
       parameters: {
         path: {
           id: true,

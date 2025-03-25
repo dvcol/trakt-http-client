@@ -1,5 +1,6 @@
 import type { Any, EntityTypes, Extended, Short } from '~/models/trakt-entity.model';
 import type { TraktApiIds } from '~/models/trakt-id.model';
+import type { TraktImage } from '~/models/trakt-image.model';
 
 export type BaseTraktPerson = {
   name: string;
@@ -39,6 +40,7 @@ export type TraktPersonExtended = BaseTraktPerson & {
   known_for_department: TraktPersonJobs;
   /** Timestamp in ISO 8601 GMT format (YYYY-MM-DD'T'hh:mm:ss.sssZ) */
   updated_at: string;
+  images: TraktImage;
 };
 
 export type TraktPerson<P extends EntityTypes = Short> = P extends Short

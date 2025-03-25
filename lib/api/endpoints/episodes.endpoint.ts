@@ -32,15 +32,18 @@ export const episodes = {
    *
    * When getting full extended info, the episode_type field can have a value of standard, series_premiere (season 1, episode 1), season_premiere (episode 1), mid_season_finale, mid_season_premiere (the next episode after the mid season finale), season_finale, or series_finale (last episode to air for an ended show).
    *
-   * @extended true - {@link TraktApiExtended.Full}
+   * @extended true - {@link TraktApiExtended.Full} | {@link TraktApiExtended.Images}
    *
    * @see [get-a-single-episode-for-a-show]{@link https://trakt.docs.apiary.io/#reference/episodes/summary/get-a-single-episode-for-a-show}
    */
-  summary: new TraktClientEndpoint<BaseEpisodeParam & TraktApiParamsExtended<typeof TraktApiExtended.Full>, TraktEpisode<'any'>>({
+  summary: new TraktClientEndpoint<
+    BaseEpisodeParam & TraktApiParamsExtended<typeof TraktApiExtended.Full | typeof TraktApiExtended.Images>,
+    TraktEpisode<'any'>
+  >({
     method: HttpMethod.GET,
     url: '/shows/:id/seasons/:season/episodes/:episode',
     opts: {
-      extended: [TraktApiExtended.Full],
+      extended: [TraktApiExtended.Full, TraktApiExtended.Images],
       parameters: {
         path: {
           id: true,

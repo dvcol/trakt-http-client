@@ -10,6 +10,7 @@ export * from './trakt-error.model';
 export * from './trakt-favorite.model';
 export * from './trakt-history.model';
 export * from './trakt-id.model';
+export * from './trakt-image.model';
 export * from './trakt-like.model';
 export * from './trakt-list.model';
 export * from './trakt-movie.model';

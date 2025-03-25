@@ -64,6 +64,7 @@ export const TraktApiExtended = {
   NoSeasons: 'noseasons',
   Vip: 'vip',
   Comments: 'comments',
+  Images: 'images',
   All: 'all',
 } as const;
 
@@ -178,18 +179,16 @@ export type TraktApiParamsFilter<F extends TraktApiFilters | void = TraktApiFilt
     }
   : Record<string, never>;
 
-export type TraktApiParamsExtended<E extends TraktApiExtends | void = TraktApiExtends> = E extends TraktApiExtends
-  ? {
-      /**
-       * Increases the verbosity of the response.
-       *
-       * Note: This returns a lot of extra data, so please only use extended parameters if you actually need them!
-       *
-       * @see [extended-info]{@link https://trakt.docs.apiary.io/#introduction/extended-info}
-       */
-      extended?: E;
-    }
-  : Record<string, never>;
+export type TraktApiParamsExtended<E extends TraktApiExtends | void = TraktApiExtends> = {
+  /**
+   * Increases the verbosity of the response.
+   *
+   * Note: This returns a lot of extra data, so please only use extended parameters if you actually need them!
+   *
+   * @see [extended-info]{@link https://trakt.docs.apiary.io/#introduction/extended-info}
+   */
+  extended?: E | E[];
+};
 
 export type TraktApiParamsPagination = {
   /**

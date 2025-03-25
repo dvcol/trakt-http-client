@@ -96,7 +96,7 @@ export const people = {
    * If available, the known_for_department property will be set to production, art, crew, costume & make-up, directing, writing, sound, camera, visual effects, lighting, or editing.
    * Many people have credits across departments, known_for allows you to select their default credits more accurately.
    *
-   * @extended true - {@link TraktApiExtended.Full}
+   * @extended true - {@link TraktApiExtended.Full} | {@link TraktApiExtended.Images}
    *
    * @see [get-a-single-person]{@link https://trakt.docs.apiary.io/#reference/people/summary/get-a-single-person}
    */
@@ -104,13 +104,13 @@ export const people = {
     {
       /** Trakt ID, Trakt slug, or IMDB ID */
       id: string | number;
-    } & TraktApiParamsExtended<typeof TraktApiExtended.Full>,
+    } & TraktApiParamsExtended<typeof TraktApiExtended.Full | typeof TraktApiExtended.Images>,
     TraktPerson<'any'>
   >({
     method: HttpMethod.GET,
     url: '/people/:id',
     opts: {
-      extended: [TraktApiExtended.Full],
+      extended: [TraktApiExtended.Full, TraktApiExtended.Images],
       parameters: {
         path: {
           id: true,
@@ -127,7 +127,7 @@ export const people = {
    * The crew object will be broken up by department into production, art, crew, costume & make-up, directing, writing, sound, camera, visual effects, lighting, and editing (if there are people for those crew positions).
    * Each of those members will have a jobs array and a standard movie object.
    *
-   * @extended true - {@link TraktApiExtended.Full}
+   * @extended true - {@link TraktApiExtended.Full} | {@link TraktApiExtended.Images}
    *
    * @see [get-movie-credits]{@link https://trakt.docs.apiary.io/#reference/people/movies/get-movie-credits}
    */
@@ -135,13 +135,13 @@ export const people = {
     {
       /** Trakt ID, Trakt slug, or IMDB ID */
       id: string | number;
-    } & TraktApiParamsExtended<typeof TraktApiExtended.Full>,
+    } & TraktApiParamsExtended<typeof TraktApiExtended.Full | typeof TraktApiExtended.Images>,
     TraktMovieCast
   >({
     method: HttpMethod.GET,
     url: '/people/:id/movies',
     opts: {
-      extended: [TraktApiExtended.Full],
+      extended: [TraktApiExtended.Full, TraktApiExtended.Images],
       parameters: {
         path: {
           id: true,
@@ -160,7 +160,7 @@ export const people = {
    * The crew object will be broken up by department into production, art, crew, costume & make-up, directing, writing, sound, camera, visual effects, lighting, editing, and created by (if there are people for those crew positions).
    * Each of those members will have a jobs array and a standard show object.
    *
-   * @extended true - {@link TraktApiExtended.Full}
+   * @extended true - {@link TraktApiExtended.Full} | {@link TraktApiExtended.Images}
    *
    * @see [get-show-credits]{@link https://trakt.docs.apiary.io/#reference/people/shows/get-show-credits}
    */
@@ -168,13 +168,13 @@ export const people = {
     {
       /** Trakt ID, Trakt slug, or IMDB ID */
       id: string | number;
-    } & TraktApiParamsExtended<typeof TraktApiExtended.Full>,
+    } & TraktApiParamsExtended<typeof TraktApiExtended.Full | typeof TraktApiExtended.Images>,
     TraktShowCast
   >({
     method: HttpMethod.GET,
     url: '/people/:id/shows',
     opts: {
-      extended: [TraktApiExtended.Full],
+      extended: [TraktApiExtended.Full, TraktApiExtended.Images],
       parameters: {
         path: {
           id: true,

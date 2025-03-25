@@ -1,5 +1,6 @@
 import type { Any, EntityTypes, Extended, Short } from '~/models/trakt-entity.model';
 import type { TraktApiIds } from '~/models/trakt-id.model';
+import type { TraktImage } from '~/models/trakt-image.model';
 import type { TraktCast } from '~/models/trakt-people.model';
 
 export const TraktEpisodeType = {
@@ -37,6 +38,7 @@ export type TraktEpisodeExtended = TraktEpisodeShort & {
   /** In minutes */
   runtime: number;
   episode_type: TraktEpisodeTypes;
+  images: TraktImage;
 };
 
 export type TraktEpisode<T extends EntityTypes = Short> = T extends Extended

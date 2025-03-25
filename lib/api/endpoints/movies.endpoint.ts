@@ -294,7 +294,7 @@ export const movies = {
    *
    * When getting full extended info, the status field can have a value of released, in production, post production, planned, rumored, or canceled.
    *
-   * @extended true - {@link TraktApiExtended.Full}
+   * @extended true - {@link TraktApiExtended.Full} | {@link TraktApiExtended.Images}
    *
    * @see [get-a-movie]{@link https://trakt.docs.apiary.io/#reference/movies/updated-ids/get-a-movie}
    */
@@ -302,13 +302,13 @@ export const movies = {
     {
       /** Trakt ID, Trakt slug, or IMDB ID */
       id: string | number;
-    } & TraktApiParamsExtended<typeof TraktApiExtended.Full>,
+    } & TraktApiParamsExtended<typeof TraktApiExtended.Full | typeof TraktApiExtended.Images>,
     TraktMovie<'any'>
   >({
     method: HttpMethod.GET,
     url: '/movies/:id',
     opts: {
-      extended: [TraktApiExtended.Full],
+      extended: [TraktApiExtended.Full, TraktApiExtended.Images],
       parameters: {
         path: {
           id: true,
