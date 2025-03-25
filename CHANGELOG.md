@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://github.com/dvcol/trakt-http-client/compare/v1.5.2...v1.6.0) (2025-03-25)
+
+
+### Features
+
+* **images:** adds supports for image metadata ([b4d7a49](https://github.com/dvcol/trakt-http-client/commit/b4d7a49fda47939df09d638eb85ce6fdd8631008))
+
 ### [1.5.2](https://github.com/dvcol/trakt-http-client/compare/v1.5.1...v1.5.2) (2025-01-12)
 
 
