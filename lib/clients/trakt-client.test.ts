@@ -11,7 +11,7 @@ import { traktApi } from '../api/trakt-api.endpoints';
 
 import { traktClientSettingsMock } from '../mocks/trakt-settings.mock';
 
-import { TraktApiError, TraktInvalidCsrfError, TraktInvalidParameterError, TraktPollingCancelledError } from '../models';
+import { TraktApiResponseError, TraktInvalidCsrfError, TraktInvalidParameterError, TraktPollingCancelledError } from '../models';
 
 import { parseAuthResponse } from './base-trakt-client';
 import { TraktClient } from './trakt-client';
@@ -452,17 +452,17 @@ describe('trakt-client.ts', () => {
         }),
       );
 
-      let error: TraktApiError | undefined;
+      let error: TraktApiResponseError | undefined;
       try {
         const promise = traktClient.pollWithDeviceCode(deviceAuthentication);
         vi.advanceTimersByTime(deviceAuthentication.interval * 1000);
         await promise;
       } catch (err) {
-        error = err as TraktApiError;
+        error = err as TraktApiResponseError;
       } finally {
         expect(error).toBeDefined();
-        expect(error).toBeInstanceOf(TraktApiError);
-        expect((error?.error as Response).status).toBe(500);
+        expect(error).toBeInstanceOf(TraktApiResponseError);
+        expect((error?.response as Response).status).toBe(500);
         expect(fetch).toHaveBeenCalledWith(new URL('/oauth/device/token', traktClientSettingsMock.endpoint).toString(), {
           ...payload,
           method: HttpMethod.POST,

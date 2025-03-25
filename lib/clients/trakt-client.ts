@@ -20,6 +20,7 @@ import { TraktApiHeaders } from '~/models/trakt-client.model';
 
 import {
   TraktApiError,
+  TraktApiResponseError,
   TraktInvalidCsrfError,
   TraktInvalidParameterError,
   TraktPollingCancelledError,
@@ -265,6 +266,15 @@ export class TraktClient extends BaseTraktClient {
           if (!body) return;
           _resolve(body);
         } catch (err) {
+          if (err instanceof TraktApiResponseError) {
+            // 400	Pending - waiting for the user to authorize your app
+            if (err.response.status === 400) return;
+            // 429	Slow Down - your app is polling too quickly
+            if (err.response.status === 429) {
+              console.warn('Polling too quickly, rate limit exceeded');
+              return;
+            }
+          }
           _reject(err);
         }
         this._clearPolling();

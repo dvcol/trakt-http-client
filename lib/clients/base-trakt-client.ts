@@ -18,8 +18,9 @@ import type {
 } from '~/models/trakt-client.model';
 
 import { isFilter, TraktApiFilterValidator } from '~/api/trakt-api.filters';
-import { TraktExpiredTokenError, TraktFilterError, TraktInvalidParameterError, TraktValidationError } from '~/models';
 import { TraktApiHeaders } from '~/models/trakt-client.model';
+
+import { parseError, TraktExpiredTokenError, TraktFilterError, TraktInvalidParameterError, TraktValidationError } from '~/models/trakt-error.model';
 
 /**
  * Checks if the fetch response is OK and handles redirects.
@@ -34,7 +35,7 @@ import { TraktApiHeaders } from '~/models/trakt-client.model';
  */
 export const isResponseOk = (response: Response) => {
   if (response.type === 'opaqueredirect') return response;
-  if (!response.ok || response.status >= 400) throw response;
+  if (!response.ok || response.status >= 400) throw parseError(response);
   return response;
 };
 

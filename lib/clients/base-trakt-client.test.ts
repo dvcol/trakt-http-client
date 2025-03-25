@@ -12,6 +12,7 @@ import type { TraktClientAuthentication } from '~/models/trakt-authentication.mo
 import type { TraktApiInit, TraktApiParams, TraktApiResponseLimit, TraktApiTemplate } from '~/models/trakt-client.model';
 
 import { TraktApiHeaders } from '~/models/trakt-client.model';
+import { parseError } from '~/models/trakt-error.model';
 
 class TestableTraktClient extends BaseTraktClient {
   publicUpdateAuth(auth: Updater<TraktClientAuthentication>) {
@@ -351,10 +352,12 @@ describe('base-trakt-client.ts', () => {
     it('should throw on failed fetch response', async () => {
       expect.assertions(1);
 
-      const failedResponse = new Response('content', {
-        status: 404,
-        statusText: 'Not Found',
-      });
+      const failedResponse = parseError(
+        new Response('content', {
+          status: 404,
+          statusText: 'Not Found',
+        }),
+      );
 
       let error;
       try {

@@ -1,7 +1,10 @@
 import type { TraktApiResponse } from '~/models/trakt-client.model';
 
+import { TraktResponseCodeMessage } from '~/models/trakt-response-code.model';
+
 export const TraktErrorTypes = {
   TraktApiError: 'TraktApiError',
+  TraktApiResponseError: 'TraktApiResponseError',
   TraktValidationError: 'TraktValidationError',
   TraktFilterError: 'TraktFilterError',
   TraktUnauthorizedError: 'TraktUnauthorizedError',
@@ -92,3 +95,21 @@ export class TraktInvalidCsrfError extends Error {
     this.expected = expected;
   }
 }
+
+export class TraktApiResponseError<T = unknown> extends Error {
+  /** Inner response that this error wraps. */
+  readonly response: TraktApiResponse<T>;
+  constructor(message: string, response: TraktApiResponse<T>) {
+    super(message);
+    this.name = TraktErrorTypes.TraktApiResponseError;
+    this.response = response;
+  }
+}
+
+export const parseError = <T = unknown>(error: Error | TraktApiResponse<T>): typeof error | TraktApiResponseError<T> => {
+  if (error instanceof Response) {
+    const message = TraktResponseCodeMessage[error.status] || error.statusText;
+    return new TraktApiResponseError(message, error);
+  }
+  return error;
+};
